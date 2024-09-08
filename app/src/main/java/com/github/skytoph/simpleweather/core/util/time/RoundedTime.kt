@@ -11,7 +11,7 @@ class RoundedTime(private val time: TimeSeconds) : RoundTime {
     override fun roundToHalfHours(): Long = time.rounded(halfHourDivider)
 
     private companion object {
-        const val dayDivider = 86_400 //todo replace
+        const val dayDivider = 86_400
         const val hourDivider = 3_600
         const val halfHourDivider = 1_800
     }

@@ -9,9 +9,8 @@ import javax.inject.Inject
 interface HourlyForecastDBMapper : Mapper<HourlyForecastDB> {
 
     fun map(
-        time: Long, temp: Double, weatherId: Int, pop: Double,
-        parent: ForecastDB,
-        dataBase: DataBase,
+        time: Long, temp: Double, weatherId: Int, pop: Double, uvi: Double,
+        parent: ForecastDB, dataBase: DataBase,
     ): HourlyForecastDB
 
     class Base @Inject constructor() : HourlyForecastDBMapper {
@@ -21,11 +20,13 @@ interface HourlyForecastDBMapper : Mapper<HourlyForecastDB> {
             temp: Double,
             weatherId: Int,
             pop: Double,
+            uvi: Double,
             parent: ForecastDB,
             dataBase: DataBase,
         ) = dataBase.createEmbeddedObject<HourlyForecastDB>(parent, ForecastDB.FIELD_HOURLY).apply {
             this.time = time
             this.temp = temp
+            this.uvi = uvi
             this.weatherId = weatherId
             this.precipitationProb = pop
         }

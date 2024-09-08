@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface UpdateForecastInteractor {
-    suspend fun updateForecasts(criteria: UpdatedLately)
+    suspend fun updateForecasts(criteria: UpdatedLately): Boolean
 
     @Singleton
     class Base @Inject constructor(

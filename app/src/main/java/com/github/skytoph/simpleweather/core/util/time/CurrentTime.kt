@@ -1,6 +1,7 @@
 package com.github.skytoph.simpleweather.core.util.time
 
-import java.util.*
+import com.github.skytoph.simpleweather.data.weather.mapper.Timezone
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -9,6 +10,7 @@ interface CurrentTime {
     fun inSeconds(): Long
     fun hoursInSeconds(): Long
     fun dayInSeconds(): Long
+    fun dayInSeconds(offset: Timezone): Long
 
     class Base @Inject constructor() : CurrentTime {
 
@@ -22,5 +24,8 @@ interface CurrentTime {
 
         override fun dayInSeconds(): Long =
             RoundedTime(TimeSeconds.FromMillis(inMillis())).roundToDay()
+
+        override fun dayInSeconds(offset: Timezone): Long =
+            RoundedTime(TimeSeconds.FromMillis(offset.withOffset(inMillis()))).roundToDay()
     }
 }

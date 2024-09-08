@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Погода</string>
-    <string name="attribution_weather_provided_by">Дані прогнозу погоди від &#160;</string>
+    <string name="attribution_weather_provided_by">Дані прогнозу погоди від <b>Open-Meteo.com</b></string>
 
     <string name="sunset">Захід сонця</string>
     <string name="sunrise">Світанок</string>
@@ -56,12 +56,13 @@
     <string name="notification_loading_channel_description">Повідомлення про оновлення даних прогнозу погоди</string>
     <string name="notification_loading_title">Оновлення прогнозу погоди</string>
     <string name="tooltip_air_quality_text">AQ – індекс якості повітря\n%1$s</string>
-    <string name="tooltip_air_quality_1">1 - Добре</string>
-    <string name="tooltip_air_quality_2">2 - Досить добре</string>
-    <string name="tooltip_air_quality_3">3 - Середньо</string>
-    <string name="tooltip_air_quality_4">4 - Погано</string>
-    <string name="tooltip_air_quality_5">5 - Дуже погано</string>
-    <string name="tooltip_value_unknown">\? - невідомо, не вдалось отримати значення</string>
+    <string name="tooltip_air_quality_1">%1$s - <b>Добре</b></string>
+    <string name="tooltip_air_quality_2">%1$s - <b>Досить добре</b></string>
+    <string name="tooltip_air_quality_3">%1$s - <b>Середньо</b></string>
+    <string name="tooltip_air_quality_4">%1$s - <b>Погано</b></string>
+    <string name="tooltip_air_quality_5">%1$s - <b>Дуже погано</b></string>
+    <string name="tooltip_air_quality_6">%1$s - <b>Жахливо</b></string>
+    <string name="tooltip_value_unknown">%1$s - невідомо, не вдалось отримати значення</string>
     <string name="tooltip_ultraviolet_index_text">UV - Ультрафіолетовий індекс\n%1$s</string>
     <string name="tooltip_ultraviolet_index_low">0–2 Низький</string>
     <string name="tooltip_ultraviolet_index_moderate">3–5 Середній</string>
@@ -76,16 +77,16 @@
 
     <string name="about_app">Про додаток</string>
     <string name="about_design_title">Дизайн</string>
-    <string name="about_design_description">Цей додаток використовує дизайн на основі роботи від <b>Pavan Kamal</b>. Оригінальний дизайн ліцензований за умовами ліцензії  <b>Creative Commons Attribution 4.0 International</b> (<b>CC BY 4.0</b>). В оригінальний дизайн були внесені зміни.</string>
+    <string name="about_design_description">Додаток використовує дизайн на основі роботи від <b>Pavan Kamal</b>. Оригінальний дизайн ліцензований за умовами ліцензії  <b>Creative Commons Attribution 4.0 International</b> (<b>CC BY 4.0</b>). В оригінальний дизайн були внесені зміни.</string>
     <string name="about_ccby4_license">Детальніше про ліцензію <b>CC BY 4.0</b></string>
     <string name="about_original_design">Оригінальний дизайн від <b>Pavan Kamal</b></string>
     <string name="about_designer_page">Сторінка <b>Pavan Kamal</b> в Instagram</string>
 
     <string name="about_data_title">Дані</string>
-    <string name="about_data_description">Додаток використовує дані прогнозу погоди, надані сервісами <b>OpenWeather</b>.\n<b>OpenWeather API</b> ліцензований за умовами ліцензії <b>Creative Commons Attribution-ShareAlike 4.0 International license (CC BY-SA 4.0)</b>.\nДані та бази даних від <b>OpenWeather</b> ліцензовані за умовами ліцензії <b>Open Data Commons Open Database License (ODbL)</b>.</string>
-    <string name="about_openweather"><b>OpenWeather</b></string>
+    <string name="about_data_description">Додаток використовує дані прогнозу погоди, надані сервісами <b>Open-Meteo</b>. <b>Open-Meteo API</b> ліцензований за умовами ліцензії <b>Creative Commons Attribution 4.0 International license (CC BY 4.0)</b>.</string>
     <string name="about_ccbysa4_license">Більше про ліцензію <b>CC BY-SA 4.0</b></string>
-    <string name="about_odbl_license">Більше про ліцензію <b>ODbL</b></string>
+    <string name="about_api_license">Ліцензія <b>Open-Meteo</b></string>
+    <string name="about_api">Сайт <b>Open-Meteo</b></string>
 
     <string name="about_locations_title">API</string>
     <string name="about_locations_descriptions">Додаток використовує сервіс <b>Place Autocomplete</b> та <b>Geocoding API</b>, які є частиною <b>Google Maps API</b>. Користуючись цим додатком, користувачі зобов’язуються дотримуватися <b>Google’s Terms of Service</b>, <b>Terms of Use</b> та <b>Privacy Policy</b>.</string>
@@ -97,4 +98,34 @@
 
     <string name="about_data_safety_title">Безпека даних</string>
     <string name="about_privacy_policy_link">Переглянути <b>Політику Конфіденційності</b></string>
+
+    <string name="weather_clear">Ясно</string>
+    <string name="weather_partly_cloudy">Частково хмарно</string>
+    <string name="weather_cloudy">Хмарно</string>
+    <string name="weather_rain_light_drizzle">Легкий дрібний дощ</string>
+    <string name="weather_rain_moderate_drizzle">Помірний дрібний дощ</string>
+    <string name="weather_rain_dense_intensity_drizzle">Сильний дрібний дощ</string>
+    <string name="weather_rain_slight">Легкий дощ</string>
+    <string name="weather_rain_moderate">Помірний дощ</string>
+    <string name="weather_rain_heavy">Сильний дощ</string>
+    <string name="weather_rain_shower_slight">Легка злива</string>
+    <string name="weather_rain_shower_moderate">Помірна злива</string>
+    <string name="weather_rain_shower_violent">Сильна злива</string>
+    <string name="weather_rain">Дощ</string>
+    <string name="weather_thunderstorm">Гроза</string>
+    <string name="weather_thunderstorm_with_rain">Гроза з дощем</string>
+    <string name="weather_thunderstorm_with_hail">Гроза з градом</string>
+    <string name="weather_snow_fall_slight">Легкий снігопад</string>
+    <string name="weather_snow_fall_moderate">Помірний снігопад</string>
+    <string name="weather_snow_fall_heavy">Сильний снігопад</string>
+    <string name="weather_snow_grains">Снігова крупа</string>
+    <string name="weather_snow_shower_slight">Легкий сніг</string>
+    <string name="weather_snow_shower_moderate">Помірний сніг</string>
+    <string name="weather_snow">Сніг</string>
+    <string name="weather_freezing_drizzle_light">Морозний дрібний дощ</string>
+    <string name="weather_freezing_drizzle_dense">Морозний дрібний дощ</string>
+    <string name="weather_freezing_rain_light">Легкий морозний дощ</string>
+    <string name="weather_freezing_rain_dense">Морозний дощ</string>
+    <string name="weather_freezing_rain">Морозний дощ</string>
+    <string name="weather_fog">Туман</string>
 </resources>

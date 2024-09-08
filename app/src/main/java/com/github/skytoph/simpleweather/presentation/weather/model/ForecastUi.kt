@@ -3,6 +3,8 @@ package com.github.skytoph.simpleweather.presentation.weather.model
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.TooltipCompat
 import com.github.skytoph.simpleweather.core.Matcher
 
 data class ListUi(
@@ -18,7 +20,7 @@ data class ListUi(
 sealed class ForecastUi(
     private val time: String,
     private val temp: String,
-    @DrawableRes private val weatherImage: Int,
+    private val weather: WeatherResources,
     private val precipitationProb: String,
 ) {
 
@@ -28,7 +30,10 @@ sealed class ForecastUi(
         tempTextView: TextView,
         popTextView: TextView,
     ) {
-        weatherImageView.setImageResource(weatherImage)
+        val description = weatherImageView.context.resources.getString(weather.titleId)
+        TooltipCompat.setTooltipText(weatherImageView, description)
+        weatherImageView.setImageResource(weather.imageId)
+        timeTextView.text = time
         timeTextView.text = time
         tempTextView.text = temp
         popTextView.text = precipitationProb
@@ -37,9 +42,9 @@ sealed class ForecastUi(
     data class Hourly(
         private val time: String,
         private val temp: String,
-        private val weatherImage: Int,
+        private val weather: WeatherResources,
         private val precipitationProb: String,
-    ) : ForecastUi(time, temp, weatherImage, precipitationProb), Matcher<Hourly> {
+    ) : ForecastUi(time, temp, weather, precipitationProb), Matcher<Hourly> {
 
         override fun matches(item: Hourly): Boolean = time == item.time
         override fun contentMatches(item: Hourly): Boolean = equals(item)
@@ -49,9 +54,9 @@ sealed class ForecastUi(
         private val day: String,
         private val maxTemp: String,
         private val minTemp: String,
-        private val weatherImage: Int,
+        private val weather: WeatherResources,
         private val precipitationProb: String,
-    ) : ForecastUi(day, maxTemp, weatherImage, precipitationProb), Matcher<Daily> {
+    ) : ForecastUi(day, maxTemp, weather, precipitationProb), Matcher<Daily> {
 
         fun show(tempMinTextView: TextView) {
             tempMinTextView.text = minTemp
@@ -61,3 +66,5 @@ sealed class ForecastUi(
         override fun contentMatches(item: Daily): Boolean = equals(item)
     }
 }
+
+data class WeatherResources(@DrawableRes val imageId: Int, @StringRes val titleId: Int)

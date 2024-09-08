@@ -22,6 +22,7 @@ interface WeatherCacheDataSource : SaveItem<WeatherData>,
     fun readAll(): List<WeatherDB>
     fun readAllIDs(): List<String>
     fun remove(id: String)
+    fun updateLocation(id: String, data: WeatherData, locations: Map<String, String>)
 
     @Singleton
     class Base @Inject constructor(
@@ -57,6 +58,9 @@ interface WeatherCacheDataSource : SaveItem<WeatherData>,
                     it.insert(data.map(mapper, DataBase(it)))
                 }
             }
+
+        override fun updateLocation(id: String, data: WeatherData, locations: Map<String, String>) =
+            saveOrUpdate(id, updateMapper.update(data, locations))
 
         override suspend fun updateTime(data: WeatherData, id: IdentifierData) =
             saveOrUpdate(id.map(), updateMapper.update(data))

@@ -3,6 +3,7 @@ package com.github.skytoph.simpleweather.data.work
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.github.skytoph.simpleweather.core.Logger
@@ -27,8 +28,8 @@ class UpdateWorker @AssistedInject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext try {
                 val criteria = map(inputData.getInt(ARG_CRITERIA, CRITERIA_ANY))
-                interactor.updateForecasts(criteria)
-                Result.success()
+                val updated = interactor.updateForecasts(criteria)
+                Result.success(Data.Builder().putBoolean(ARG_RESULT, updated).build())
             } catch (exception: Exception) {
                 logger.log(this::class.java.simpleName, exception)
                 val retry = inputData.getBoolean(ARG_RETRY, false)
@@ -51,5 +52,6 @@ class UpdateWorker @AssistedInject constructor(
         const val CRITERIA_HOUR = 1002
         const val ARG_CRITERIA = "arg_update_criteria"
         const val ARG_RETRY = "arg_retry"
+        const val ARG_RESULT = "arg_result"
     }
 }

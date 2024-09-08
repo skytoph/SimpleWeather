@@ -30,7 +30,10 @@ interface IndicatorsDomainToUiMapper : Mapper<IndicatorsUi> {
             timeMapper.map(timezone),
             probabilityFormatter.format(precipitationProb),
             uvi.roundToInt().let { UltravioletIndexUi(it.toString(), uv(it)) },
-            AirQualityUi(airQualityIndex.toString(), aq(airQualityIndex))
+            AirQualityUi(
+                airQualityIndex.let { if (it == -1) "?" else it.toString() },
+                aq(airQualityIndex)
+            )
         )
     }
 }

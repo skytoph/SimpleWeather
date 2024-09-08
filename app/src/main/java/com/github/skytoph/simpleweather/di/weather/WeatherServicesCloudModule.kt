@@ -1,7 +1,6 @@
 package com.github.skytoph.simpleweather.di.weather
 
 import com.github.skytoph.simpleweather.data.airquality.AirQualityService
-import com.github.skytoph.simpleweather.data.location.cloud.LocationService
 import com.github.skytoph.simpleweather.data.weather.cloud.ForecastService
 import com.github.skytoph.simpleweather.di.core.RetrofitWeather
 import dagger.Module
@@ -21,8 +20,4 @@ object WeatherServicesCloudModule {
     @Provides
     fun airQualityService(@RetrofitWeather retrofit: Retrofit): AirQualityService =
         retrofit.create(AirQualityService::class.java)
-
-    @Provides
-    fun locationService(@RetrofitWeather retrofit: Retrofit): LocationService =
-        retrofit.create(LocationService::class.java)
 }

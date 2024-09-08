@@ -45,17 +45,14 @@ class FavoritesViewModel @Inject constructor(
         stateCommunication.show(FavoritesState.Initial)
     }
 
-    fun refresh(
-        lifecycleOwner: LifecycleOwner,
-        criteria: Int = UpdateWorker.CRITERIA_HOUR,
-        hideRefreshing: () -> Unit = {}
-    ) = if (interactor.favoriteIDs().isEmpty()) {
-        requestPermissions()
-        hideRefreshing()
-    } else {
-        worker.scheduleWork(criteria)
-        observeUpdatingWork(lifecycleOwner, hideRefreshing)
-    }
+    fun refresh(lifecycleOwner: LifecycleOwner, hideRefreshing: () -> Unit = {}) =
+        if (interactor.favoriteIDs().isEmpty()) {
+            requestPermissions()
+            hideRefreshing()
+        } else {
+            worker.scheduleWork(UpdateWorker.CRITERIA_HOUR)
+            observeUpdatingWork(lifecycleOwner, hideRefreshing)
+        }
 
     private fun observeUpdatingWork(lifecycleOwner: LifecycleOwner, hideRefreshing: () -> Unit) =
         worker.observeWork(lifecycleOwner) { info ->
@@ -68,8 +65,9 @@ class FavoritesViewModel @Inject constructor(
             }
             if (state == WorkInfo.State.FAILED)
                 interactor.handleUpdatingError()
-            else if (state == WorkInfo.State.SUCCEEDED)
-                updateWeatherContent()
+            else if (state == WorkInfo.State.SUCCEEDED
+                && info.outputData.getBoolean(UpdateWorker.ARG_RESULT, false)
+            ) updateWeatherContent()
         }
 
     fun updateWeatherContent() = refreshCommunication.show(true)

@@ -1,7 +1,6 @@
 package com.github.skytoph.simpleweather.domain.search
 
 import com.github.skytoph.simpleweather.data.location.CurrentLocationCoordinates
-import com.github.skytoph.simpleweather.data.location.cloud.PlaceCloudDataSource
 import com.github.skytoph.simpleweather.data.search.cache.SearchHistoryCache
 import com.github.skytoph.simpleweather.data.search.cache.SearchHistoryData
 import com.github.skytoph.simpleweather.data.search.cache.mapper.SearchHistoryDataMapper
@@ -9,22 +8,17 @@ import com.github.skytoph.simpleweather.data.search.cache.mapper.SearchHistoryLi
 import javax.inject.Inject
 
 interface LocationsRepository {
-    suspend fun placeCoordinates(placeId: String): String
     suspend fun saveSearchLocation(placeId: String, location: String)
     suspend fun clearSearchHistory()
     suspend fun currentPlace(): Pair<Double, Double>
     suspend fun searchHistory(): List<SearchHistoryData>
 
     class Base @Inject constructor(
-        private val placeCloudDataSource: PlaceCloudDataSource,
         private val searchHistoryCache: SearchHistoryCache,
         private val currentLocation: CurrentLocationCoordinates,
         private val listMapper: SearchHistoryListDataMapper,
         private val mapper: SearchHistoryDataMapper,
     ) : LocationsRepository {
-
-        override suspend fun placeCoordinates(placeId: String): String =
-            placeCloudDataSource.placeCoordinates(placeId)
 
         override suspend fun searchHistory(): List<SearchHistoryData> =
             listMapper.map(searchHistoryCache.readAll())

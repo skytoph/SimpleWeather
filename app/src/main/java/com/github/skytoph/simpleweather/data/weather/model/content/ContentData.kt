@@ -35,4 +35,6 @@ data class ContentData(
 
     fun update(mapper: UpdateForecastContent): WeatherData =
         mapper.update(currentWeather, indicators, horizon, forecast)
+
+    fun containsLocation(language: String): Boolean = currentWeather.containsLocation(language)
 }

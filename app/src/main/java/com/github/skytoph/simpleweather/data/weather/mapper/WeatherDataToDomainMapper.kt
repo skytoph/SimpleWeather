@@ -62,7 +62,7 @@ interface WeatherDataToDomainMapper : Mapper<WeatherDomain> {
                         ): ForecastDomain = ForecastDomain(
                             warningMapper.map(alerts, timezone, forecast, indicators.map()),
                             hourlyMapper.map(hourlyForecast, sunPosition, timezone),
-                            dailyFilter.filter(dailyForecast).map { it.map(dailyMapper) })
+                            dailyFilter.filter(dailyForecast, timezone).map { it.map(dailyMapper) })
                     }
                     return ContentDomain(
                         currentMapper.map(currentWeather, sunPosition, time, timezone),

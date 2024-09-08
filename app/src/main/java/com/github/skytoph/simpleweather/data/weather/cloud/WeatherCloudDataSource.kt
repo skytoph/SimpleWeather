@@ -3,7 +3,6 @@ package com.github.skytoph.simpleweather.data.weather.cloud
 import com.github.skytoph.simpleweather.core.data.UpdateItem
 import com.github.skytoph.simpleweather.data.airquality.AirQualityCloudDataSource
 import com.github.skytoph.simpleweather.data.location.cloud.IdMapper
-import com.github.skytoph.simpleweather.data.location.cloud.PlaceCloudDataSource
 import com.github.skytoph.simpleweather.data.location.cloud.PlaceData
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.WeatherCloudToDataMapper
 import com.github.skytoph.simpleweather.data.weather.model.WeatherData
@@ -14,25 +13,17 @@ import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 interface WeatherCloudDataSource : UpdateItem<WeatherData, IdentifierData> {
-    suspend fun fetch(id: String): WeatherData
-    suspend fun fetch(coordinates: Pair<Double, Double>): WeatherData
+    suspend fun fetch(location: PlaceData): WeatherData
 
     class Base @Inject constructor(
         private val forecastCloudDataSource: ForecastCloudDataSource,
         private val airQualityCloudDataSource: AirQualityCloudDataSource,
-        private val placeCloudDataSource: PlaceCloudDataSource,
         private val cloudMapper: WeatherCloudToDataMapper,
         private val updateMapper: UpdateWeatherMapper,
         private val idMapper: IdMapper,
     ) : WeatherCloudDataSource {
 
-        override suspend fun fetch(id: String): WeatherData =
-            fetch(placeCloudDataSource.place(id))
-
-        override suspend fun fetch(coordinates: Pair<Double, Double>): WeatherData =
-            fetch(placeCloudDataSource.place(coordinates))
-
-        private suspend fun fetch(location: PlaceData): WeatherData = coroutineScope {
+        override suspend fun fetch(location: PlaceData): WeatherData = coroutineScope {
             val coordinates = location.mapToCoordinates(idMapper)
             val forecast = async { forecastCloudDataSource.getForecast(coordinates) }
             val airQuality = async { airQualityCloudDataSource.getAirQuality(coordinates) }

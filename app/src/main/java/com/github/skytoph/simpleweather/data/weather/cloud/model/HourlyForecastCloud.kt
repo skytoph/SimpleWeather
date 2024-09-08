@@ -2,49 +2,54 @@ package com.github.skytoph.simpleweather.data.weather.cloud.model
 
 import com.github.skytoph.simpleweather.core.Mappable
 import com.github.skytoph.simpleweather.core.MappableTo
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataListMapper
 import com.github.skytoph.simpleweather.data.weather.model.content.forecast.HourlyForecastData
 import com.squareup.moshi.Json
 
 /*
-"dt": 1664089200,
-"temp": 286.3,
-"feels_like": 285.58,
-"pressure": 1010,
-"humidity": 73,
-"dew_point": 281.57,
-"uvi": 0.78,
-"clouds": 100,
-"visibility": 10000,
-"wind_speed": 7.23,
-"wind_deg": 231,
-"wind_gust": 9.22,
-"weather": [
-    {
-    "id": 804,
-    "main": "Clouds",
-    "description": "overcast clouds",
-    "icon": "04d"
-    }
-],
-"pop": 0.64
+  "hourly": {
+    "time": [1725310800],
+    "temperature_2m": [23.6],
+    "precipitation_probability": [3],
+    "weather_code": [2],
+    "cloud_cover": [51, 77],
+    "uv_index": [0]
+  }
  */
 
 data class HourlyForecastCloud(
-    @Json(name = "dt")
-    private val dt: Long,
-    @Json(name = "temp")
-    private val temp: Double,
-    @Json(name = "weather")
-    private val weather: List<WeatherTypeCloud>?,
-    @Json(name = "pop")
-    private val pop: Double,
-    @Json(name = "uvi")
-    private val uvi: Double,
-) : Mappable<HourlyForecastData, HourlyForecastDataMapper>, MappableTo<Double> {
+    @Json(name = "time")
+    private val dt: List<Long>? = emptyList(),
 
-    override fun map(mapper: HourlyForecastDataMapper): HourlyForecastData =
-        mapper.map(dt, temp, weather?.firstOrNull()?.map() ?: 0, pop, uvi)
+    @Json(name = "temperature_2m")
+    private val temp: List<Double>? = emptyList(),
 
-    override fun map(): Double = pop
+    @Json(name = "weather_code")
+    private val weather: List<Int>? = emptyList(),
+
+    @Json(name = "precipitation_probability")
+    private val pop: List<Double>? = emptyList(),
+
+    @Json(name = "cloud_cover")
+    private val cloudCover: List<Double>? = emptyList(),
+
+    @Json(name = "uv_index")
+    private val uvi: List<Double>? = emptyList(),
+) : Mappable<List<HourlyForecastData>, HourlyForecastDataListMapper>, MappableTo<Double> {
+
+    override fun map(mapper: HourlyForecastDataListMapper): List<HourlyForecastData> =
+        mapper.map(
+            dt ?: emptyList(),
+            temp ?: emptyList(),
+            weather ?: emptyList(),
+            pop ?: emptyList(),
+            cloudCover ?: emptyList(),
+            uvi ?: emptyList()
+        )
+
+    override fun map(): Double = pop?.first() ?: 0.0
+
+    companion object {
+        val empty: HourlyForecastCloud = HourlyForecastCloud()
+    }
 }

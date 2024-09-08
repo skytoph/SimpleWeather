@@ -3,12 +3,13 @@ package com.github.skytoph.simpleweather.domain.weather.mapper
 import com.github.skytoph.simpleweather.R
 
 abstract class IndicatorsTooltipMapper : AirQualityTooltipMapper, UltravioletTooltipMapper {
-    override fun aq(aq: Int): Int = when (aq) {
-        1 -> R.string.tooltip_air_quality_1
-        2 -> R.string.tooltip_air_quality_2
-        3 -> R.string.tooltip_air_quality_3
-        4 -> R.string.tooltip_air_quality_4
-        5 -> R.string.tooltip_air_quality_5
+    override fun aq(aq: Int): Int = when {
+        aq in 0..20 -> R.string.tooltip_air_quality_1
+        aq in 21..40 -> R.string.tooltip_air_quality_2
+        aq in 41..60 -> R.string.tooltip_air_quality_3
+        aq in 61..80 -> R.string.tooltip_air_quality_4
+        aq in 81..100 -> R.string.tooltip_air_quality_5
+        aq > 100 -> R.string.tooltip_air_quality_5
         else -> R.string.tooltip_value_unknown
     }
 

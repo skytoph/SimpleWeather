@@ -7,6 +7,6 @@ interface ProbabilityFormatter {
 
     class Base @Inject constructor() : ProbabilityFormatter {
 
-        override fun format(number: Double): String = "${(number * 100).toInt()}%"
+        override fun format(number: Double): String = "${number.toInt()}%"
     }
 }

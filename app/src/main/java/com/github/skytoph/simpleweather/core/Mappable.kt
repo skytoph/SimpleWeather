@@ -5,7 +5,6 @@ import io.realm.RealmObject
 
 interface Mappable<T, M : Mapper<T>> {
     fun map(mapper: M): T
-    interface Base
 }
 
 interface MappableTo<T> {

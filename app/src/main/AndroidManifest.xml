@@ -36,6 +36,7 @@
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:foregroundServiceType="dataSync"
             android:enabled="false"
             android:exported="false">
             <meta-data

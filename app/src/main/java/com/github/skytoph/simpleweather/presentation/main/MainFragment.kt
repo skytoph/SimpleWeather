@@ -2,7 +2,11 @@ package com.github.skytoph.simpleweather.presentation.main
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -75,6 +79,11 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
         viewModel.observe(viewLifecycleOwner) { state ->
             state.show(childFragmentManager, R.id.weather_fragment_container)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.init()
     }
 
     override fun onResume() {

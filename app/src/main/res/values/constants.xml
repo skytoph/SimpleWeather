@@ -3,9 +3,9 @@
     <string name="about_ccby4_license_url" translatable="false">https://creativecommons.org/licenses/by/4.0/</string>
     <string name="about_original_design_url" translatable="false">https://www.figma.com/community/file/1019097765306863573/Minimal-Weather-App/</string>
     <string name="about_designer_url" translatable="false">https://www.instagram.com/getuied/</string>
-    <string name="about_openweather_url" translatable="false">https://openweathermap.org/</string>
+    <string name="weather_provider_url" translatable="false">https://open-meteo.com/</string>
     <string name="about_ccbysa4_license_url" translatable="false">https://creativecommons.org/licenses/by-sa/4.0/</string>
-    <string name="about_odbl_license_url" translatable="false">https://opendatacommons.org/licenses/odbl/</string>
+    <string name="about_api_license_url" translatable="false">https://open-meteo.com/en/license</string>
     <string name="about_locations_terms_of_use_url" translatable="false">https://cloud.google.com/maps-platform/terms/</string>
     <string name="about_locations_terms_of_service_url" translatable="false">http://www.google.com/intl/en/policies/terms</string>
     <string name="about_locations_privacy_policy_url" translatable="false">https://policies.google.com/privacy</string>

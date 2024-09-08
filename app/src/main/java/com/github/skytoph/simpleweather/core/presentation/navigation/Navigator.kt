@@ -53,8 +53,7 @@ interface Navigator : AddLocationNavigator, SearchNavigator, MainContentNavigato
         ) = communication.show(AddLocationNavFragment(container, id, ShowStrategy.Replace))
 
         override fun showWeather(
-            fragmentManager: FragmentManager,
-            @IdRes container: Int, id: String, favorite: Boolean
+            fragmentManager: FragmentManager, @IdRes container: Int, id: String, favorite: Boolean
         ) = communication.show(
             WeatherNavFragment(
                 container,

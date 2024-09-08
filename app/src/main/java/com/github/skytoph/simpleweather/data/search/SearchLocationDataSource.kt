@@ -1,5 +1,7 @@
 package com.github.skytoph.simpleweather.data.search
 
+import android.content.Context
+import com.github.skytoph.simpleweather.BuildConfig
 import com.github.skytoph.simpleweather.core.exception.EmptyRequestException
 import com.github.skytoph.simpleweather.core.exception.NoResultsException
 import com.github.skytoph.simpleweather.data.search.geocode.PredictionCloud
@@ -9,16 +11,19 @@ import com.github.skytoph.simpleweather.data.search.mapper.SearchResultsCloudToD
 import com.github.skytoph.simpleweather.data.search.mapper.SearchResultsDataToDomainMapper
 import com.github.skytoph.simpleweather.domain.search.SearchItemDomain
 import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.net.UnknownHostException
+import java.util.Locale
 import javax.inject.Inject
 
 interface SearchLocationDataSource {
-    fun startSession()
+    fun startSession(locale: Locale)
     suspend fun getPredictions(
         query: String,
         showResult: (List<SearchItemDomain>) -> Unit,
@@ -49,19 +54,21 @@ interface SearchLocationDataSource {
             else service.getPrediction(query).execute().body()!!
                 .also { if (it.isEmpty()) throw NoResultsException() }
 
-        override fun startSession() = Unit
+        override fun startSession(locale: Locale) = Unit
     }
 
     class Base @Inject constructor(
-        private val client: PlacesClient,
+        @ApplicationContext private val context: Context,
         private val dataMapper: PredictionListToDataMapper,
         private val domainMapper: SearchResultsDataToDomainMapper,
     ) : SearchLocationDataSource {
 
-        private lateinit var token: AutocompleteSessionToken
+        private var token: AutocompleteSessionToken = AutocompleteSessionToken.newInstance()
+        private lateinit var client: PlacesClient
 
-        override fun startSession() {
-            token = AutocompleteSessionToken.newInstance()
+        override fun startSession(locale: Locale) {
+            Places.initialize(context, BuildConfig.MAPS_API_KEY, locale)
+            client = Places.createClient(context)
         }
 
         override suspend fun getPredictions(
@@ -92,7 +99,7 @@ interface SearchLocationDataSource {
     }
 
     class Mock @Inject constructor() : SearchLocationDataSource {
-        override fun startSession() = Unit
+        override fun startSession(locale: Locale) = Unit
 
         override suspend fun getPredictions(
             query: String,

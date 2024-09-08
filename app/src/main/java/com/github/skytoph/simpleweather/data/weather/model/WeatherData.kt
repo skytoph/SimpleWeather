@@ -2,7 +2,11 @@ package com.github.skytoph.simpleweather.data.weather.model
 
 import com.github.skytoph.simpleweather.core.Mappable
 import com.github.skytoph.simpleweather.core.MappableToDB
-import com.github.skytoph.simpleweather.core.data.*
+import com.github.skytoph.simpleweather.core.data.DataBase
+import com.github.skytoph.simpleweather.core.data.Item
+import com.github.skytoph.simpleweather.core.data.SaveItem
+import com.github.skytoph.simpleweather.core.data.UpdateItem
+import com.github.skytoph.simpleweather.core.data.UpdateItemTime
 import com.github.skytoph.simpleweather.data.location.cloud.IdMapper
 import com.github.skytoph.simpleweather.data.weather.cache.mapper.WeatherDataDBMapper
 import com.github.skytoph.simpleweather.data.weather.cache.model.WeatherDB
@@ -48,4 +52,6 @@ data class WeatherData(
 
     override fun updatedLately(mapper: CompareTimeWithCurrent, criteria: UpdatedLately): Boolean =
         time.updatedLately(mapper, criteria)
+
+    fun containsLocation(language: String): Boolean = content.containsLocation(language)
 }

@@ -11,7 +11,7 @@ abstract class TextWithTooltipUi(
 ) {
     fun show(textView: TextView) {
         val res = textView.resources
-        val tooltip = res.getString(tooltipTextId, res.getString(tooltipValueId))
+        val tooltip = res.getString(tooltipTextId, res.getString(tooltipValueId, text))
 
         textView.text = text
         TooltipCompat.setTooltipText(textView, tooltip)

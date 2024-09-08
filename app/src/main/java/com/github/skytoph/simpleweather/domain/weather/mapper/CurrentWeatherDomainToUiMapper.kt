@@ -6,7 +6,7 @@ import com.github.skytoph.simpleweather.core.util.formatter.LocationFormatter
 import com.github.skytoph.simpleweather.core.util.formatter.TemperatureFormatter
 import com.github.skytoph.simpleweather.core.util.formatter.TimeFormatter
 import com.github.skytoph.simpleweather.presentation.weather.model.CurrentWeatherUi
-import java.util.*
+import java.util.TimeZone
 import javax.inject.Inject
 
 interface CurrentWeatherDomainToUiMapper : Mapper<CurrentWeatherUi> {
@@ -30,12 +30,11 @@ interface CurrentWeatherDomainToUiMapper : Mapper<CurrentWeatherUi> {
             weatherId: Int,
             updated: Long,
             isDayNow: Boolean
-        ): CurrentWeatherUi =
-            CurrentWeatherUi(
-                locationLocale.map(location),
-                tempFormatter.format(temperature),
-                timeFormatter.dateAndTime(updated, TimeZone.getDefault()),
-                weatherImageRes(weatherId, isDayNow)
-            )
+        ): CurrentWeatherUi = CurrentWeatherUi(
+            locationLocale.map(location),
+            tempFormatter.format(temperature),
+            timeFormatter.dateAndTime(updated, TimeZone.getDefault()),
+            weatherImageRes(weatherId, isDayNow)
+        )
     }
 }

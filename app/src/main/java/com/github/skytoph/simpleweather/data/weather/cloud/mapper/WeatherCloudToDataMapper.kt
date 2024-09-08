@@ -4,11 +4,16 @@ import com.github.skytoph.simpleweather.core.Mapper
 import com.github.skytoph.simpleweather.data.airquality.cloud.model.AirQualityCloud
 import com.github.skytoph.simpleweather.data.location.cloud.PlaceData
 import com.github.skytoph.simpleweather.data.location.mapper.PlaceCloudMapper
-import com.github.skytoph.simpleweather.data.weather.cloud.model.*
+import com.github.skytoph.simpleweather.data.weather.cloud.model.AlertCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.CurrentWeatherCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.DailyForecastCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.HourlyForecastCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.WeatherCloud
 import com.github.skytoph.simpleweather.data.weather.mapper.content.current.CurrentWeatherDataMapper
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastListDataMapper
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastListDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataListMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataListMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WarningListDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WeatherCodeMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.horizon.HorizonDataMapper
 import com.github.skytoph.simpleweather.data.weather.model.WeatherData
 import com.github.skytoph.simpleweather.data.weather.model.content.ContentData
@@ -30,8 +35,9 @@ interface WeatherCloudToDataMapper : Mapper<WeatherData> {
         private val indicatorsMapper: IndicatorsCloudToDataMapper,
         private val horizonMapper: HorizonDataMapper,
         private val warningsMapper: WarningListDataMapper,
-        private val hourlyMapper: HourlyForecastListDataMapper,
-        private val dailyMapper: DailyForecastListDataMapper,
+        private val hourlyMapper: HourlyForecastDataListMapper,
+        private val dailyMapper: DailyForecastDataListMapper,
+        private val weatherMapper: WeatherCodeMapper
     ) : WeatherCloudToDataMapper {
 
         override fun map(
@@ -45,8 +51,8 @@ interface WeatherCloudToDataMapper : Mapper<WeatherData> {
                 current: CurrentWeatherCloud,
                 timezoneOffset: Int,
                 timezone: String,
-                hourly: List<HourlyForecastCloud>,
-                daily: List<DailyForecastCloud>,
+                hourly: HourlyForecastCloud,
+                daily: DailyForecastCloud,
                 alerts: List<AlertCloud>,
             ): WeatherData = locationCloud.map(object : PlaceCloudMapper {
 
@@ -57,27 +63,26 @@ interface WeatherCloudToDataMapper : Mapper<WeatherData> {
                     override fun map(
                         dt: Long,
                         temp: Double,
-                        sunrise: Long,
-                        sunset: Long,
                         uvi: Double,
                         weather: Int,
-                    ): WeatherData {
-                        val pop = hourly.firstOrNull()?.map() ?: 0.0
-                        return WeatherData(
-                            IdentifierData(placeId, lat, lng, favorite),
-                            ForecastTimeData(dt, timezoneOffset, timezone),
-                            ContentData(
-                                currentMapper.map(weather, temp, location),
-                                indicatorsMapper.map(temp, pop, airQualityCloud.map()),
-                                horizonMapper.map(sunrise, sunset),
-                                ForecastData(
-                                    warningsMapper.map(alerts),
-                                    hourlyMapper.map(hourly),
-                                    dailyMapper.map(daily)
-                                )
+                        pop: Double,
+                        clouds: Double,
+                    ): WeatherData = WeatherData(
+                        IdentifierData(placeId, lat, lng, favorite),
+                        ForecastTimeData(dt, timezoneOffset, timezone),
+                        ContentData(
+                            currentMapper.map(
+                                weatherMapper.map(weather, pop, clouds), temp, location
+                            ),
+                            indicatorsMapper.map(uvi, hourly.map(), airQualityCloud.map()),
+                            daily.horizon.let { horizonMapper.map(it.first, it.second) },
+                            ForecastData(
+                                warningsMapper.map(alerts),
+                                hourly.map(hourlyMapper),
+                                daily.map(dailyMapper)
                             )
                         )
-                    }
+                    )
                 })
             })
         })

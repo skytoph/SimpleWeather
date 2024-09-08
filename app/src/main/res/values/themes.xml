@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.SimpleWeather" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -11,11 +11,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="fontFamily">@font/poppins</item>
         <item name="googleLogo">@drawable/google_on_white</item>
-        <item name="openWeatherLogo">@drawable/openweather_logo</item>
 
         <item name="tabDotColor">@color/light_gray</item>
         <item name="tabDotSelectedColor">@color/blue</item>

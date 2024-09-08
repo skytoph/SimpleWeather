@@ -23,10 +23,20 @@ data class PlaceJson(
 data class ResultJson(
     @Json(name = "geometry")
     val geometry: GeometryJson?,
+    @Json(name = "address_components")
+    val components: List<AddressComponentJson>?,
     @Json(name = "place_id")
     val place_id: String?,
     @Json(name = "types")
     val types: List<String>?
+)
+
+@JsonClass(generateAdapter = true)
+data class AddressComponentJson(
+    @Json(name = "long_name")
+    val longName: String?,
+    @Json(name = "short_name")
+    val shortName: String?
 )
 
 @JsonClass(generateAdapter = true)
@@ -49,6 +59,7 @@ data class PlaceCoordinatesCloud(
     val lat: Double,
     val lng: Double,
     val types: List<String>,
+    val name: String?,
 ) : IdMapper.MappableToStringId, IdMapper.MappableToCoordinates, MappableTo<String> {
 
     override fun map(): String = placeId

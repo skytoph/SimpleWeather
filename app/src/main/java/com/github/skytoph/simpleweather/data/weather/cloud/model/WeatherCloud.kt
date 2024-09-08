@@ -6,41 +6,51 @@ import com.github.skytoph.simpleweather.data.weather.model.WeatherData
 import com.squareup.moshi.Json
 
 /*
-  "lat": 39.31,
-  "lon": -74.5,
-  "timezone": "America/New_York",
-  "timezone_offset": -18000,
+  {
+  "latitude": 47.3125,
+  "longitude": 32.875,
+  "generationtime_ms": 0.055909156799316406,
+  "utc_offset_seconds": 10800,
+  "timezone": "Europe/Kiev",
+  "timezone_abbreviation": "EEST",
+  "elevation": 22,
+  "current_units": {},
   "current": {
-    "dt": 1646318698,
-    "sunrise": 1646306882,
-    "sunset": 1646347929,
-    "temp": 282.21,
-    "feels_like": 278.41,
-    "pressure": 1014,
-    "humidity": 65,
-    "dew_point": 275.99,
-    "uvi": 2.55,
-    "clouds": 40,
-    "visibility": 10000,
-    "wind_speed": 8.75,
-    "wind_deg": 360,
-    "wind_gust": 13.89,
-    "weather": [
-      {
-        "id": 802,
-        "main": "Clouds",
-        "description": "scattered clouds",
-        "icon": "03d"
-      }
-    ]
+    "time": 1725351300,
+    "interval": 900,
+    "temperature_2m": 27.5,
+    "precipitation_probability": 13,
+    "weather_code": 3,
+    "cloud_cover": 85,
+    "uv_index": 4.7
   },
+  "hourly_units": {},
+  "hourly": {
+    "time": [1725310800],
+    "temperature_2m": [23.6],
+    "precipitation_probability": [3],
+    "weather_code": [2],
+    "cloud_cover": [51, 77],
+    "uv_index": [0]
+  },
+  "daily_units": {},
+  "daily": {
+    "time": [1725310800],
+    "weather_code": [3],
+    "temperature_2m_max": [29.3],
+    "temperature_2m_min": [20.4],
+    "sunrise": [1725333048],
+    "sunset": [1725380672],
+    "precipitation_probability_max": [46]
+  }
+}
  */
 
 data class WeatherCloud(
-    @Json(name = "lat")
+    @Json(name = "latitude")
     private val lat: Double,
 
-    @Json(name = "lon")
+    @Json(name = "longitude")
     private val lon: Double,
 
     @Json(name = "current")
@@ -49,25 +59,23 @@ data class WeatherCloud(
     @Json(name = "timezone")
     private val timezone: String?,
 
-    @Json(name = "timezone_offset")
-    private val timezone_offset: Int,
+    @Json(name = "utc_offset_seconds")
+    private val timezoneOffset: Int,
 
     @Json(name = "hourly")
-    private val hourly: List<HourlyForecastCloud>?,
+    private val hourly: HourlyForecastCloud?,
 
     @Json(name = "daily")
-    private val daily: List<DailyForecastCloud>?,
+    private val daily: DailyForecastCloud?,
 
-    @Json(name = "alerts")
-    private val alerts: List<AlertCloud>?,
 ) : Mappable<WeatherData, WeatherCloudMapper> {
 
     override fun map(mapper: WeatherCloudMapper): WeatherData = mapper.map(
         current ?: CurrentWeatherCloud.empty,
-        timezone_offset,
+        timezoneOffset,
         timezone.toString(),
-        hourly ?: emptyList(),
-        daily ?: emptyList(),
-        alerts ?: emptyList()
+        hourly ?: HourlyForecastCloud.empty,
+        daily ?: DailyForecastCloud.empty,
+        emptyList()
     )
 }

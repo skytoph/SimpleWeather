@@ -3,7 +3,7 @@
 
     <string name="hint_search_location">Search location</string>
     <string name="attribution_powered_by" translatable="false">Powered by &#160;</string>
-    <string name="attribution_weather_provided_by">Weather data provided by &#160;</string>
+    <string name="attribution_weather_provided_by">Weather data by <b>Open-Meteo.com</b></string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
     <string name="horizon">Horizon</string>
@@ -32,7 +32,7 @@
     <string name="indicator_uv" translatable="false">uv</string>
     <string name="indicator_rain">% rain</string>
     <string name="indicator_aq" translatable="false">aq</string>
-    <string name="format_12_hours_time" translatable="false">K:mm a</string>
+    <string name="format_12_hours_time" translatable="false">HH:mm a</string>
     <string name="format_24_hours_time" translatable="false">HH:mm</string>
 
     <!--    Messages-->
@@ -103,13 +103,14 @@
     <string name="notification_loading_title">Updating weather forecast</string>
 
     <!--    Tooltips-->
-    <string name="tooltip_air_quality_text">AQ – air quality index. Possible values: 1–5, where %1$s</string>
-    <string name="tooltip_air_quality_1">1 - Good</string>
-    <string name="tooltip_air_quality_2">2 - Fair</string>
-    <string name="tooltip_air_quality_3">3 - Moderate</string>
-    <string name="tooltip_air_quality_4">4 - Poor</string>
-    <string name="tooltip_air_quality_5">5 - Very Poor</string>
-    <string name="tooltip_value_unknown">"? - unknown, can't load value"</string>
+    <string name="tooltip_air_quality_text">AQ – air quality index, where\n%1$s</string>
+    <string name="tooltip_air_quality_1">%1$s - <b>Good</b></string>
+    <string name="tooltip_air_quality_2">%1$s - <b>Fair</b></string>
+    <string name="tooltip_air_quality_3">%1$s - <b>Moderate</b></string>
+    <string name="tooltip_air_quality_4">%1$s - <b>Poor</b></string>
+    <string name="tooltip_air_quality_5">%1$s - <b>Very Poor</b></string>
+    <string name="tooltip_air_quality_6">%1$s - <b>Extremely Poor</b></string>
+    <string name="tooltip_value_unknown">"%1$s - unknown, can't load value"</string>
 
     <!--    Fragment titles-->
     <string name="about_app">About App</string>
@@ -132,14 +133,44 @@
     <string name="about_designer_page"><b>Pavan Kamal</b> on Instagram</string>
 
     <string name="about_data_title">Data</string>
-    <string name="about_data_description">Simple Weather app uses weather data provided by <b>OpenWeather</b>.\nThe <b>OpenWeather API</b> is licensed under the <b>Creative Commons Attribution-ShareAlike 4.0 International license (CC BY-SA 4.0)</b>.\nThe data and database from <b>OpenWeather</b> are licensed by the <b>Open Data Commons Open Database License (ODbL)</b>.</string>
-    <string name="about_openweather"><b>OpenWeather</b> website</string>
+    <string name="about_data_description">Simple Weather app uses weather data provided by <b>Open-Meteo</b>.\nThe <b>Open-Meteo API</b> is licensed under the <b>Creative Commons Attribution 4.0 International license (CC BY 4.0)</b>.</string>
+    <string name="about_api"><b>Open-Meteo</b> website</string>
+    <string name="about_api_license"><b>Open-Meteo</b> license</string>
     <string name="about_ccbysa4_license">More about <b>CC BY-SA 4.0 license</b></string>
-    <string name="about_odbl_license">More about <b>ODbL license</b></string>
 
     <string name="about_locations_title">API</string>
     <string name="about_locations_descriptions">Simple Weather app uses <b>Place Autocomplete service</b> and <b>Geocoding API</b> that are part of <b>Google Maps API</b>. By using this application, users are bound by <b>Google’s Terms of Service</b>, <b>Terms of Use</b> and <b>Privacy Policy</b>.</string>
     <string name="about_locations_terms_of_use">Google’s <b>Terms of Use</b></string>
     <string name="about_locations_terms_of_service">Google’s <b>Terms of Service</b></string>
     <string name="about_locations_privacy_policy">Google’s <b>Privacy Policy</b></string>
+
+    <string name="weather_clear">Clear</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_rain_light_drizzle">Light drizzle</string>
+    <string name="weather_rain_moderate_drizzle">Moderate drizzle</string>
+    <string name="weather_rain_dense_intensity_drizzle">Dense intensity drizzle</string>
+    <string name="weather_rain_slight">Slight rain</string>
+    <string name="weather_rain_moderate">Moderate rain</string>
+    <string name="weather_rain_heavy">Heavy rain</string>
+    <string name="weather_rain_shower_slight">Slight rain shower</string>
+    <string name="weather_rain_shower_moderate">Moderate rain shower</string>
+    <string name="weather_rain_shower_violent">Violent rain shower</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_thunderstorm_with_rain">Thunderstorm with rain</string>
+    <string name="weather_thunderstorm_with_hail">Thunderstorm with hail</string>
+    <string name="weather_snow_fall_slight">Slight snow fall</string>
+    <string name="weather_snow_fall_moderate">Moderate snow fall</string>
+    <string name="weather_snow_fall_heavy">Heavy snow fall</string>
+    <string name="weather_snow_grains">Snow grains</string>
+    <string name="weather_snow_shower_slight">Slight snow shower</string>
+    <string name="weather_snow_shower_moderate">Moderate snow shower</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_freezing_drizzle_light">Light freezing drizzle</string>
+    <string name="weather_freezing_drizzle_dense">Dense intensity freezing drizzle</string>
+    <string name="weather_freezing_rain_light">Light freezing rain</string>
+    <string name="weather_freezing_rain_dense">Dense intensity freezing rain</string>
+    <string name="weather_freezing_rain">Freezing rain</string>
+    <string name="weather_fog">Fog</string>
 </resources>

@@ -12,8 +12,8 @@ interface WeatherCloudMapper : Mapper<WeatherData> {
         current: CurrentWeatherCloud,
         timezoneOffset: Int,
         timezone: String,
-        hourly: List<HourlyForecastCloud>,
-        daily: List<DailyForecastCloud>,
+        hourly: HourlyForecastCloud,
+        daily: DailyForecastCloud,
         alerts: List<AlertCloud>,
     ): WeatherData
 }

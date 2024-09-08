@@ -1,6 +1,7 @@
 package com.github.skytoph.simpleweather.domain.weather
 
 import com.github.skytoph.simpleweather.core.exception.FavoritesLimitException
+import com.github.skytoph.simpleweather.data.location.cloud.PlaceData
 import com.github.skytoph.simpleweather.data.weather.WeatherCache
 import com.github.skytoph.simpleweather.data.weather.cache.WeatherCacheDataSource
 import com.github.skytoph.simpleweather.data.weather.cache.mapper.WeatherDBToDataMapper
@@ -26,11 +27,24 @@ class BaseWeatherRepository @Inject constructor(
     override suspend fun getCachedWeather(id: String): WeatherData =
         cacheDataSource.read(id).map(cacheMapper)
 
-    override suspend fun getCloudWeather(id: String): WeatherData =
-        cloudDataSource.fetch(id).also { cachedWeather.cache(it) }
+    override suspend fun getCachedAndUpdateLocation(
+        id: String, location: String, language: String
+    ): WeatherData = getCachedWeather(id).let { data ->
+        if (location.isBlank() || data.containsLocation(language)) data
+        else {
+            cacheDataSource.updateLocation(id, data, mapOf(language to location))
+            getCachedWeather(id)
+        }
+    }
 
-    override suspend fun getCloudWeather(coordinates: Pair<Double, Double>): WeatherData =
-        cloudDataSource.fetch(coordinates).also { cachedWeather.cache(it) }
+    override suspend fun isCached(id: String): Boolean = try {
+        getCachedWeather(id).let { true }
+    } catch (exception: Exception) {
+        false
+    }
+
+    override suspend fun getCloudWeather(location: PlaceData): WeatherData =
+        cloudDataSource.fetch(location).also { cachedWeather.cache(it) }
 
     override suspend fun updateCloudWeather(id: String): WeatherData =
         updateAndSave(getCachedWeather(id))
@@ -41,10 +55,12 @@ class BaseWeatherRepository @Inject constructor(
 
     override suspend fun saveWeather() = cachedWeather.save(cacheDataSource)
 
-    override suspend fun refreshAll(criteria: UpdatedLately) =
-        cacheDataSource.readAll().map { it.map(cacheMapper) }.forEach { forecast ->
-            if (!forecast.updatedLately(timeMapper, criteria)) updateAndSave(forecast)
-        }
+    override suspend fun refreshAll(criteria: UpdatedLately): Boolean =
+        cacheDataSource.readAll().map { it.map(cacheMapper) }.map { forecast ->
+            val updated = !forecast.updatedLately(timeMapper, criteria)
+            if (updated) updateAndSave(forecast)
+            updated
+        }.contains(true)
 
     private suspend fun updateAndSave(data: WeatherData): WeatherData =
         data.update(cloudDataSource).also { it.save(cacheDataSource) }

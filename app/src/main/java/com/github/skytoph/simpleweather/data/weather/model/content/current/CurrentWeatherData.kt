@@ -15,18 +15,20 @@ import com.github.skytoph.simpleweather.domain.weather.model.CurrentWeatherDomai
 data class CurrentWeatherData(
     private val weatherId: Int,
     private val temperature: Double,
-    private val location: Map<String, String>,
+    private val locations: Map<String, String>,
 ) : Mappable<CurrentWeatherDomain, CurrentWeatherDomainMapper>,
     MappableToDB.EmbeddedList<LocationDB, ContentDB, LocationDBMapper> {
 
     override fun map(mapper: CurrentWeatherDomainMapper): CurrentWeatherDomain =
-        mapper.map(weatherId, temperature, location)
+        mapper.map(weatherId, temperature, locations)
 
     override fun map(mapper: LocationDBMapper, dataBase: DataBase, parent: ContentDB) =
-        mapper.map(location, parent, dataBase)
+        mapper.map(locations, parent, dataBase)
 
     fun update(mapper: UpdateCurrentWeatherLocation): WeatherData =
-        mapper.update(weatherId, temperature)
+        mapper.update(weatherId, temperature, locations)
 
-    fun update(mapper: UpdateCurrentWeather): CurrentWeatherData = mapper.update(location)
+    fun update(mapper: UpdateCurrentWeather): CurrentWeatherData = mapper.update(locations)
+    fun containsLocation(language: String): Boolean =
+        locations.containsKey(language)
 }

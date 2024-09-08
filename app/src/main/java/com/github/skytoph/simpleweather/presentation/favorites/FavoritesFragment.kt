@@ -111,13 +111,12 @@ class FavoritesFragment : BaseFragment<FavoritesViewModel, FragmentFavoritesBind
         super.onPause()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) =
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) =
         when (key) {
             resources.getString(R.string.key_units), resources.getString(R.string.key_time) ->
                 viewModel.updateWeatherContent()
             resources.getString(R.string.key_language) -> {
-                val language =
-                    sharedPreferences.getString(key, resources.getString(R.string.language_eng))
+                val language = sharedPreferences?.getString(key, resources.getString(R.string.language_eng))
                 val locale = LocaleListCompat.forLanguageTags(language)
                 AppCompatDelegate.setApplicationLocales(locale)
             }

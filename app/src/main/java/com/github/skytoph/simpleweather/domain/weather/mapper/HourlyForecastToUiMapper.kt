@@ -20,15 +20,12 @@ interface HourlyForecastToUiMapper : Mapper<Hourly> {
     ) : HourlyForecastToUiMapper, WeatherImageId() {
 
         override fun map(
-            time: Long,
-            temp: Double,
-            weatherId: Int,
-            pop: Double,
-            isDaytime: Boolean,
-        ) =
-            Hourly(timeFormatter.timeFull(time),
-                tempFormatter.format(temp),
-                weatherImageRes(weatherId, isDaytime),
-                probabilityFormatter.format(pop))
+            time: Long, temp: Double, weatherId: Int, pop: Double, isDaytime: Boolean
+        ) = Hourly(
+            timeFormatter.timeFull(time),
+            tempFormatter.format(temp),
+            weatherImageRes(weatherId, isDaytime),
+            probabilityFormatter.format(pop)
+        )
     }
 }

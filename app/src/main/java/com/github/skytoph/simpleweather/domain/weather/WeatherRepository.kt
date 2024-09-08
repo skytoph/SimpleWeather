@@ -1,12 +1,13 @@
 package com.github.skytoph.simpleweather.domain.weather
 
+import com.github.skytoph.simpleweather.data.location.cloud.PlaceData
 import com.github.skytoph.simpleweather.data.weather.model.WeatherData
 import com.github.skytoph.simpleweather.domain.weather.mapper.UpdatedLately
 
 interface WeatherRepository {
 
     interface RefreshAll {
-        suspend fun refreshAll(criteria: UpdatedLately = UpdatedLately.LastDay)
+        suspend fun refreshAll(criteria: UpdatedLately = UpdatedLately.LastDay): Boolean
     }
 
     interface Save : GetCached {
@@ -23,12 +24,13 @@ interface WeatherRepository {
     }
 
     interface GetCloud {
-        suspend fun getCloudWeather(id: String): WeatherData
-        suspend fun getCloudWeather(coordinates: Pair<Double, Double>): WeatherData
+        suspend fun getCloudWeather(location: PlaceData): WeatherData
     }
 
     interface GetCached {
+        suspend fun getCachedAndUpdateLocation(id: String, location: String, language: String): WeatherData
         suspend fun getCachedWeather(id: String): WeatherData
+        suspend fun isCached(id: String): Boolean
     }
 
     interface Update : GetCloud, GetCached {

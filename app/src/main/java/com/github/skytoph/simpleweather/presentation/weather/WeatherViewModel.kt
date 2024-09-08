@@ -1,6 +1,10 @@
 package com.github.skytoph.simpleweather.presentation.weather
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.skytoph.simpleweather.domain.weather.WeatherInteractor
 import com.github.skytoph.simpleweather.presentation.addlocation.LoadingState
 import com.github.skytoph.simpleweather.presentation.addlocation.communication.WeatherLoadingCommunication

@@ -3,6 +3,7 @@ package com.github.skytoph.simpleweather.domain.favorites
 import com.github.skytoph.simpleweather.core.ErrorHandler
 import com.github.skytoph.simpleweather.core.domain.FunctionHandler
 import com.github.skytoph.simpleweather.core.exception.RefreshForecastsException
+import com.github.skytoph.simpleweather.data.location.cloud.PlaceCloudDataSource
 import com.github.skytoph.simpleweather.data.pages.PagesDataSource
 import com.github.skytoph.simpleweather.domain.search.LocationsRepository
 import com.github.skytoph.simpleweather.domain.weather.WeatherRepository
@@ -22,6 +23,7 @@ interface FavoritesInteractor {
     class Base @Inject constructor(
         private val repository: WeatherRepository.Mutable,
         private val locationRepository: LocationsRepository,
+        private val placeCloudDataSource: PlaceCloudDataSource,
         private val errorHandler: ErrorHandler,
         private val pagesDataSource: PagesDataSource,
         private val handler: FunctionHandler<Unit>,
@@ -34,7 +36,7 @@ interface FavoritesInteractor {
         override fun handleUpdatingError() = errorHandler.handle(RefreshForecastsException())
 
         override suspend fun saveCurrentLocation() = handler.handle {
-            repository.getCloudWeather(locationRepository.currentPlace())
+            repository.getCloudWeather(placeCloudDataSource.place(locationRepository.currentPlace()))
             repository.saveWeather()
         }
 

@@ -1,54 +1,65 @@
 package com.github.skytoph.simpleweather.data.weather.cloud.model
 
 import com.github.skytoph.simpleweather.core.Mappable
-import com.github.skytoph.simpleweather.core.MappableTo
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataListMapper
 import com.github.skytoph.simpleweather.data.weather.model.content.forecast.DailyForecastData
 import com.squareup.moshi.Json
 
+/*
+  "daily": {
+    "time": [1725310800],
+    "weather_code": [3],
+    "temperature_2m_max": [29.3],
+    "temperature_2m_min": [20.4],
+    "sunrise": [1725333048],
+    "sunset": [1725380672],
+    "uv_index": [0],
+    "precipitation_probability_max": [46]
+  }
+*/
+
 data class DailyForecastCloud(
-    @Json(name = "dt")
-    private val dt: Long,
+    @Json(name = "time")
+    private val dt: List<Long>? = emptyList(),
 
-    @Json(name = "temp")
-    private val temp: DailyTempCloud?,
+    @Json(name = "weather_code")
+    private val weather: List<Int>? = emptyList(),
 
-    @Json(name = "weather")
-    private val weather: List<WeatherTypeCloud>?,
+    @Json(name = "temperature_2m_min")
+    private val tempMin: List<Double>? = emptyList(),
 
-    @Json(name = "pop")
-    private val pop: Double,
+    @Json(name = "temperature_2m_max")
+    private val tempMax: List<Double>? = emptyList(),
 
-    @Json(name = "uvi")
-    private val uvi: Double,
+    @Json(name = "precipitation_probability_mean")
+    private val pop: List<Double>? = emptyList(),
+
+    @Json(name = "uv_index")
+    private val uvi: List<Double>? = emptyList(),
 
     @Json(name = "sunrise")
-    private val sunrise: Long,
+    private val sunrise: List<Long>? = emptyList(),
 
     @Json(name = "sunset")
-    private val sunset: Long,
-) : Mappable<DailyForecastData, DailyForecastDataMapper>, MappableTo<Double> {
+    private val sunset: List<Long>? = emptyList(),
+) : Mappable<List<DailyForecastData>, DailyForecastDataListMapper> {
 
-    override fun map(mapper: DailyForecastDataMapper): DailyForecastData =
+    val horizon: Pair<Long, Long>
+        get() = (sunrise?.first() ?: 0L) to (sunset?.first() ?: 0L)
+
+    override fun map(mapper: DailyForecastDataListMapper): List<DailyForecastData> =
         mapper.map(
-            time = dt,
-            temp = temp?.map() ?: Pair(0.0, 0.0),
-            weatherId = weather?.firstOrNull()?.map() ?: 0,
-            pop = pop,
-            uvi = uvi,
-            sunrise = sunrise,
-            sunset = sunset
+            time = dt ?: emptyList(),
+            tempMin = tempMin ?: emptyList(),
+            tempMax = tempMax ?: emptyList(),
+            weatherId = weather ?: emptyList(),
+            pop = pop ?: emptyList(),
+            uvi = uvi ?: emptyList(),
+            sunrise = sunrise ?: emptyList(),
+            sunset = sunset ?: emptyList(),
         )
 
-    override fun map(): Double = pop
-}
-
-data class DailyTempCloud(
-    @Json(name = "min")
-    private val min: Double,
-    @Json(name = "max")
-    private val max: Double,
-) : MappableTo<Pair<Double, Double>> {
-
-    override fun map(): Pair<Double, Double> = Pair(min, max)
+    companion object {
+        val empty: DailyForecastCloud = DailyForecastCloud()
+    }
 }

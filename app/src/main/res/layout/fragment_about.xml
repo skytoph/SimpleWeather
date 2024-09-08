@@ -82,21 +82,21 @@
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:text="@string/about_openweather"
-            app:url="@string/about_openweather_url" />
+            android:text="@string/about_api"
+            app:url="@string/weather_provider_url" />
 
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:text="@string/about_ccbysa4_license"
-            app:url="@string/about_ccbysa4_license_url" />
+            android:text="@string/about_api_license"
+            app:url="@string/about_api_license_url" />
 
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
             android:layout_marginBottom="12dp"
-            android:text="@string/about_odbl_license"
-            app:url="@string/about_odbl_license_url" />
+            android:text="@string/about_ccbysa4_license"
+            app:url="@string/about_ccbysa4_license_url" />
 
         <TextView
             style="@style/About.Title"

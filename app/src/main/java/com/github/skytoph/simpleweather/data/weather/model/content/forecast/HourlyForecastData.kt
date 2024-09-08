@@ -15,6 +15,7 @@ data class HourlyForecastData(
     private val temp: Double,
     private val weatherId: Int,
     private val precipitationProb: Double,
+    private val uvi: Double,
 ) : Mappable<HourlyDomain, HourlyForecastDomainMapper>,
     MappableToDB.EmbeddedValid<HourlyForecastDB, ForecastDB, HourlyForecastDBMapper> {
 
@@ -25,7 +26,7 @@ data class HourlyForecastData(
         mapper: HourlyForecastDBMapper,
         dataBase: DataBase,
         parent: ForecastDB,
-    ): HourlyForecastDB = mapper.map(time, temp, weatherId, precipitationProb, parent, dataBase)
+    ): HourlyForecastDB = mapper.map(time, temp, weatherId, precipitationProb, uvi, parent, dataBase)
 
     fun isNotOutdated(timeSeconds: Long): Boolean = timeSeconds <= time
 

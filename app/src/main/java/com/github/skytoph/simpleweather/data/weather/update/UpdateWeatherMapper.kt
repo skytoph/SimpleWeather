@@ -6,10 +6,15 @@ import com.github.skytoph.simpleweather.data.airquality.cloud.model.AirQualityCl
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.CurrentCloudToDataMapper
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.IndicatorsCloudToDataMapper
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.WeatherCloudMapper
-import com.github.skytoph.simpleweather.data.weather.cloud.model.*
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastListDataMapper
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastListDataMapper
+import com.github.skytoph.simpleweather.data.weather.cloud.model.AlertCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.CurrentWeatherCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.DailyForecastCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.HourlyForecastCloud
+import com.github.skytoph.simpleweather.data.weather.cloud.model.WeatherCloud
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataListMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataListMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WarningListDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WeatherCodeMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.horizon.HorizonDataMapper
 import com.github.skytoph.simpleweather.data.weather.model.WeatherData
 import com.github.skytoph.simpleweather.data.weather.model.content.ContentData
@@ -36,9 +41,10 @@ interface UpdateWeatherMapper : Mapper<WeatherData> {
         private val indicatorsMapper: IndicatorsCloudToDataMapper,
         private val horizonMapper: HorizonDataMapper,
         private val warningsMapper: WarningListDataMapper,
-        private val hourlyMapper: HourlyForecastListDataMapper,
-        private val dailyMapper: DailyForecastListDataMapper,
+        private val hourlyMapper: HourlyForecastDataListMapper,
+        private val dailyMapper: DailyForecastDataListMapper,
         private val currentTime: CurrentTime,
+        private val weatherMapper: WeatherCodeMapper
     ) : UpdateWeatherMapper {
 
         override fun update(
@@ -62,35 +68,36 @@ interface UpdateWeatherMapper : Mapper<WeatherData> {
                         current: CurrentWeatherCloud,
                         timezoneOffset: Int,
                         timezone: String,
-                        hourly: List<HourlyForecastCloud>,
-                        daily: List<DailyForecastCloud>,
+                        hourly: HourlyForecastCloud,
+                        daily: DailyForecastCloud,
                         alerts: List<AlertCloud>,
                     ): WeatherData = current.map(object : CurrentCloudToDataMapper {
 
                         override fun map(
                             dt: Long,
                             temp: Double,
-                            sunrise: Long,
-                            sunset: Long,
                             uvi: Double,
                             weather: Int,
+                            pop: Double,
+                            clouds: Double,
                         ): WeatherData {
                             val currentMapper = object : UpdateCurrentWeather {
                                 override fun update(location: Map<String, String>) =
-                                    CurrentWeatherData(weather, temp, location)
+                                    CurrentWeatherData(
+                                        weatherMapper.map(weather, pop, clouds), temp, location
+                                    )
                             }
-                            val pop = hourly.firstOrNull()?.map() ?: 0.0
                             return WeatherData(
                                 identifier,
                                 ForecastTimeData(dt, timezoneOffset, timezone),
                                 ContentData(
                                     currentWeather.update(currentMapper),
                                     indicatorsMapper.map(uvi, pop, airQualityCloud.map()),
-                                    horizonMapper.map(sunrise, sunset),
+                                    daily.horizon.let { horizonMapper.map(it.first, it.second) },
                                     ForecastData(
                                         warningsMapper.map(alerts),
-                                        hourlyMapper.map(hourly),
-                                        dailyMapper.map(daily)
+                                        hourly.map(hourlyMapper),
+                                        daily.map(dailyMapper)
                                     )
                                 )
                             )
@@ -100,31 +107,33 @@ interface UpdateWeatherMapper : Mapper<WeatherData> {
             })
         })
 
-        override fun update(weatherData: WeatherData, location: Map<String, String>): WeatherData =
-            weatherData.update(object : UpdateWeather {
+        override fun update(
+            weatherData: WeatherData, locationNew: Map<String, String>
+        ): WeatherData = weatherData.update(object : UpdateWeather {
+            override fun update(
+                identifier: IdentifierData, time: ForecastTimeData, content: ContentData,
+            ): WeatherData = content.update(object : UpdateForecastContent {
                 override fun update(
-                    identifier: IdentifierData, time: ForecastTimeData, content: ContentData,
-                ): WeatherData = content.update(object : UpdateForecastContent {
+                    currentWeather: CurrentWeatherData,
+                    indicators: IndicatorsData,
+                    horizon: HorizonData,
+                    forecast: ForecastData,
+                ): WeatherData = currentWeather.update(object : UpdateCurrentWeatherLocation {
                     override fun update(
-                        currentWeather: CurrentWeatherData,
-                        indicators: IndicatorsData,
-                        horizon: HorizonData,
-                        forecast: ForecastData,
-                    ): WeatherData = currentWeather.update(object : UpdateCurrentWeatherLocation {
-                        override fun update(weatherId: Int, temperature: Double) =
-                            WeatherData(
-                                identifier,
-                                time,
-                                ContentData(
-                                    CurrentWeatherData(weatherId, temperature, location),
-                                    indicators,
-                                    horizon,
-                                    forecast
-                                )
-                            )
-                    })
+                        weatherId: Int, temperature: Double, locations: Map<String, String>
+                    ) = WeatherData(
+                        identifier,
+                        time,
+                        ContentData(
+                            CurrentWeatherData(weatherId, temperature, locations + locationNew),
+                            indicators,
+                            horizon,
+                            forecast
+                        )
+                    )
                 })
             })
+        })
 
         override fun update(weatherData: WeatherData): WeatherData =
             weatherData.update(object : UpdateWeather {

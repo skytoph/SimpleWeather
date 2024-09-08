@@ -6,9 +6,11 @@ import javax.inject.Inject
 
 interface Timezone : Mappable<String, TimezoneToStringMapper> {
     fun withOffset(time: Long): Long
+    fun withoutOffset(time: Long): Long
 
     class Base(private val timezone: String, private val offset: Int) : Timezone {
         override fun withOffset(time: Long): Long = time + offset
+        override fun withoutOffset(time: Long): Long = time - offset
         override fun map(mapper: TimezoneToStringMapper): String = mapper.map(timezone)
     }
 }

@@ -11,7 +11,6 @@ import com.github.skytoph.simpleweather.core.presentation.error.UiMessage
 import com.github.skytoph.simpleweather.core.presentation.navigation.ShowScreen
 import com.github.skytoph.simpleweather.data.work.UpdateWorker
 import com.github.skytoph.simpleweather.domain.work.UpdateForecastWork
-import com.github.skytoph.simpleweather.presentation.favorites.communication.RefreshCommunication
 import com.github.skytoph.simpleweather.presentation.main.nav.MainNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -21,7 +20,6 @@ class MainViewModel @Inject constructor(
     private val navigator: MainNavigator,
     private val progressCommunication: ProgressCommunication.Mutable,
     private val messageCommunication: MessageCommunication.Observe,
-    private val refreshCommunication: RefreshCommunication.Update,
     private val worker: UpdateForecastWork.Periodically,
 ) : ViewModel() {
 
@@ -41,10 +39,7 @@ class MainViewModel @Inject constructor(
         worker.observeWork(owner) { info ->
             when (info?.state) {
                 WorkInfo.State.RUNNING -> progressCommunication.show(true)
-                WorkInfo.State.ENQUEUED -> {
-                    progressCommunication.show(false)
-                    refreshCommunication.show(true)
-                }
+                WorkInfo.State.ENQUEUED -> progressCommunication.show(false)
             }
         }
     }

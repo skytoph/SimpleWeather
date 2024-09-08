@@ -13,4 +13,5 @@ data class PlaceData(
 
     override fun map(mapper: PlaceCloudMapper) = mapper.map(id, names, lat, lng)
     override fun mapToCoordinates(mapper: IdMapper) = mapper.mapToCoordinates(lat, lng)
+    fun mapToName(): String = names.values.first()
 }

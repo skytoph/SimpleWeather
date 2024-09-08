@@ -2,16 +2,22 @@ package com.github.skytoph.simpleweather.di.weather
 
 import com.github.skytoph.simpleweather.data.location.mapper.LocalNameDataMapper
 import com.github.skytoph.simpleweather.data.location.mapper.LocationDataMapper
-import com.github.skytoph.simpleweather.data.location.mapper.PlaceCloudToDataMapper
 import com.github.skytoph.simpleweather.data.location.mapper.PlaceToCloudMapper
 import com.github.skytoph.simpleweather.data.weather.cache.mapper.WeatherDBToDataMapper
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.IndicatorsCloudToDataMapper
 import com.github.skytoph.simpleweather.data.weather.cloud.mapper.WeatherCloudToDataMapper
-import com.github.skytoph.simpleweather.data.weather.mapper.LocationCloudToDataMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.ContentDBToDataMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.current.CurrentWeatherDataMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.current.ForecastToCurrentDataMapper
-import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.*
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataListMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.DailyForecastDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.FindForecastMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.ForecastDBToDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataListMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.HourlyForecastDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WarningDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WarningListDataMapper
+import com.github.skytoph.simpleweather.data.weather.mapper.content.forecast.WeatherCodeMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.horizon.HorizonDataMapper
 import com.github.skytoph.simpleweather.data.weather.mapper.content.indicators.ForecastToIndicatorsMapper
 import com.github.skytoph.simpleweather.data.weather.update.UpdateWeatherMapper
@@ -64,25 +70,22 @@ abstract class WeatherDataMapperModule {
     abstract fun forecastMapper(mapper: ForecastDBToDataMapper.Base): ForecastDBToDataMapper
 
     @Binds
-    abstract fun hourlyListMapper(mapper: HourlyForecastListDataMapper.Base): HourlyForecastListDataMapper
+    abstract fun dailyMapper(mapper: DailyForecastDataMapper.Base): DailyForecastDataMapper
+
+    @Binds
+    abstract fun dailyListMapper(mapper: DailyForecastDataListMapper.Base): DailyForecastDataListMapper
 
     @Binds
     abstract fun hourlyMapper(mapper: HourlyForecastDataMapper.Base): HourlyForecastDataMapper
 
     @Binds
-    abstract fun dailyMapper(mapper: DailyForecastDataMapper.Base): DailyForecastDataMapper
+    abstract fun hourlyListMapper(mapper: HourlyForecastDataListMapper.Base): HourlyForecastDataListMapper
 
     @Binds
-    abstract fun dailyListMapper(mapper: DailyForecastListDataMapper.Base): DailyForecastListDataMapper
+    abstract fun weatherCodeMapper(mapper: WeatherCodeMapper.Base): WeatherCodeMapper
 
     @Binds
     abstract fun dbToDataMapper(mapper: WeatherDBToDataMapper.Base): WeatherDBToDataMapper
-
-    @Binds
-    abstract fun placeMapper(mapper: PlaceCloudToDataMapper.Base): PlaceCloudToDataMapper
-
-    @Binds
-    abstract fun locationCloudToDataMapper(mapper: LocationCloudToDataMapper.Base): LocationCloudToDataMapper
 
     @Binds
     abstract fun locationMapper(mapper: LocationDataMapper.Base): LocationDataMapper

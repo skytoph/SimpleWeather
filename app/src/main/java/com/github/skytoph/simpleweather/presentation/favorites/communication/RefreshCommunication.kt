@@ -13,5 +13,5 @@ class RefreshCommunication {
     interface Mutable : Update, Observe
 
     @Singleton
-    class Base @Inject constructor() : Mutable, Communication.UiUpdate<Boolean>()
+    class Base @Inject constructor() : Mutable, Communication.SingleUiUpdate<Boolean>()
 }

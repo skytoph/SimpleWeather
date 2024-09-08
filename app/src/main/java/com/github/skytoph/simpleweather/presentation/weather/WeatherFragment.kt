@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.github.skytoph.simpleweather.R
 import com.github.skytoph.simpleweather.core.presentation.BaseFragment
@@ -31,7 +32,10 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
 
     override val viewModel by viewModels<WeatherViewModel>()
 
-    private val tickReceiver = BroadcastReceiverAction { viewModel.refreshFromCache() }
+    private val tickReceiver = BroadcastReceiverAction {
+        if (lifecycle.currentState == Lifecycle.State.RESUMED)
+            viewModel.refreshFromCache()
+    }
 
     override val bindingInflation: (inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean) -> FragmentWeatherBinding
         get() = FragmentWeatherBinding::inflate
