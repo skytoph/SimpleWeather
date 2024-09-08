@@ -11,14 +11,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.github.skytoph.simpleweather"
         minSdk 24
-        targetSdk 33
-        versionCode 28
-        versionName "1.0"
+        targetSdk 34
+        versionCode 33
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
