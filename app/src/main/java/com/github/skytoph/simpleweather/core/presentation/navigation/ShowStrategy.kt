@@ -3,23 +3,29 @@ package com.github.skytoph.simpleweather.core.presentation.navigation
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 abstract class ShowStrategy {
     abstract fun show(
         id: String,
         fragment: Fragment,
         @IdRes container: Int,
+        animation: NavAnimation,
         fragmentManager: FragmentManager,
     )
+
+    protected fun FragmentManager.baseTransaction(animation: NavAnimation): FragmentTransaction =
+        animation.addAnimation(beginTransaction())
 
     object Add : ShowStrategy() {
         override fun show(
             id: String,
             fragment: Fragment,
             @IdRes container: Int,
+            animation: NavAnimation,
             fragmentManager: FragmentManager,
         ) {
-            fragmentManager.beginTransaction()
+            fragmentManager.baseTransaction(animation)
                 .replace(container, fragment, id)
                 .commit()
         }
@@ -30,9 +36,10 @@ abstract class ShowStrategy {
             id: String,
             fragment: Fragment,
             container: Int,
+            animation: NavAnimation,
             fragmentManager: FragmentManager,
         ) {
-            fragmentManager.beginTransaction()
+            fragmentManager.baseTransaction(animation)
                 .replace(container, fragment, id)
                 .addToBackStack(id)
                 .commit()
@@ -44,6 +51,7 @@ abstract class ShowStrategy {
             id: String,
             fragment: Fragment,
             @IdRes container: Int,
+            animation: NavAnimation,
             fragmentManager: FragmentManager,
         ) {
             childFragmentManager.beginTransaction()
@@ -59,6 +67,7 @@ abstract class ShowStrategy {
             id: String,
             fragment: Fragment,
             @IdRes container: Int,
+            animation: NavAnimation,
             fragmentManager: FragmentManager,
         ) {
             childFragmentManager.beginTransaction()

@@ -18,9 +18,9 @@
 
     <com.github.skytoph.simpleweather.core.presentation.view.shimmer.ShimmerWrapper
         android:id="@+id/search_shimmer"
+        style="@style/LoadingShimmer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:shimmer_auto_start="false">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_prediction_recycler_view"

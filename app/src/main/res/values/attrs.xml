@@ -25,13 +25,15 @@
         <attr name="valueColor" format="reference|color" />
     </declare-styleable>
 
-    <declare-styleable name="MessageButton">
-        <attr name="buttonDrawableEnd" format="reference" />
-        <attr name="clickedDrawableEnd" format="reference" />
-        <attr name="contentColor" format="reference|color" />
-        <attr name="clickedContentColor" format="reference|color" />
-        <attr name="buttonText" format="string" />
-        <attr name="clickedText" format="string" />
+    <declare-styleable name="ActionButton">
+        <attr name="iconEnabled" format="reference" />
+        <attr name="iconDisabled" format="reference" />
+        <attr name="backgroundColorEnabled" format="reference|color" />
+        <attr name="backgroundColorDisabled" format="reference|color" />
+        <attr name="contentColorEnabled" format="reference|color" />
+        <attr name="contentColorDisabled" format="reference|color" />
+        <attr name="textEnabled" format="string" />
+        <attr name="textDisabled" format="string" />
     </declare-styleable>
 
     <declare-styleable name="ClickableLinkView">

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/action_button_background"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
+    tools:backgroundTint="@color/green">
+
+    <TextSwitcher
+        android:id="@+id/action_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textAlignment="center"
+            android:textColor="?highlightedTextColor"
+            tools:text="@string/action_add_to_list" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            tools:text="@string/action_added_to_list" />
+
+    </TextSwitcher>
+
+    <ImageSwitcher
+        android:id="@+id/action_button_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:baselineAlignBottom="true"
+            android:contentDescription="@string/action_add_to_list"
+            android:src="@drawable/ic_add_circle_outline"
+            app:tint="?highlightedTextColor" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/action_added_to_list"
+            android:src="@drawable/ic_done"
+            app:tint="@color/white" />
+
+    </ImageSwitcher>
+
+</LinearLayout>

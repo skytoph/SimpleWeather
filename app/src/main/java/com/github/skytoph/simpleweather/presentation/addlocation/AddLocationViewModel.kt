@@ -2,7 +2,11 @@ package com.github.skytoph.simpleweather.presentation.addlocation
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.skytoph.simpleweather.domain.addlocation.AddLocationInteractor
 import com.github.skytoph.simpleweather.presentation.addlocation.communication.WeatherLoadingCommunication
 import com.github.skytoph.simpleweather.presentation.addlocation.nav.AddLocationNavigator
@@ -41,6 +45,8 @@ class AddLocationViewModel @Inject constructor(
 
     fun observe(owner: LifecycleOwner, observer: Observer<LoadingState>) =
         loadingCommunication.observe(owner, observer)
+
+    fun goBack() = navigator.goBack()
 
     companion object {
         const val PLACE_ID_KEY = "placeId"

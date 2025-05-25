@@ -12,20 +12,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.github.skytoph.simpleweather.core.presentation.view.MessageButton
+        <include
+            android:id="@+id/appbar_add_location"
+            layout="@layout/appbar_with_title" />
+
+        <com.github.skytoph.simpleweather.core.presentation.view.ActionButton
             android:id="@+id/message_button"
-            style="@style/MessageButton"
+            style="@style/ActionButtonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="end"
-            android:layout_marginTop="41dp"
             android:layout_marginEnd="24dp"
             android:visibility="invisible"
-            app:buttonDrawableEnd="@drawable/ic_add_circle_outline"
-            app:buttonText="@string/action_add_to_list"
-            app:clickedContentColor="@color/white"
-            app:clickedDrawableEnd="@drawable/ic_done"
-            app:clickedText="@string/action_added_to_list"
-            app:contentColor="?highlightedTextColor"
-            app:iconGravity="textEnd"
+            app:textDisabled="@string/action_added_to_list"
+            app:textEnabled="@string/action_add_to_list"
             tools:visibility="visible" />
 
         <FrameLayout

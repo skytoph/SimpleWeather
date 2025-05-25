@@ -9,10 +9,11 @@ abstract class NavigationScreen(
     private val fragmentClass: Class<out Fragment>,
     @IdRes private val container: Int,
     private val strategy: ShowStrategy,
+    private val animation: NavAnimation = NavAnimation.Crossfade
 ) : ShowScreen {
 
     override fun show(fragmentManager: FragmentManager) =
-        strategy.show(id, fragment(), container, fragmentManager)
+        strategy.show(id, fragment(), container, animation, fragmentManager)
 
     protected open fun fragment(): Fragment = fragmentClass.newInstance()
 }

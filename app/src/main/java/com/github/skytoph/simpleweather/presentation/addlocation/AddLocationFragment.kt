@@ -23,6 +23,11 @@ class AddLocationFragment : BaseFragment<AddLocationViewModel, FragmentAddLocati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.appbarAddLocation.toolbarWithTitle.apply {
+            setNavigationIcon(R.drawable.ic_back)
+            setNavigationOnClickListener { viewModel.goBack() }
+        }
+
         val button = binding.messageButton
         val shimmerView = binding.placeholder.placeholderShimmer
         viewModel.observe(this) { state ->

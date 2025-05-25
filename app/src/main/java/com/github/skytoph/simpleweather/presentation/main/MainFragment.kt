@@ -15,8 +15,11 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import com.github.skytoph.simpleweather.R
 import com.github.skytoph.simpleweather.core.presentation.BaseFragment
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeIn
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeOut
 import com.github.skytoph.simpleweather.core.presentation.menu.MenuItemExpandListener
 import com.github.skytoph.simpleweather.databinding.FragmentMainBinding
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,9 +35,12 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
     private lateinit var queryListener: SearchQueryListener
     private lateinit var toolbar: Toolbar
     private lateinit var searchView: SearchView
+    private lateinit var tabLayout: TabLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = requireActivity()
 
         toolbar = binding.appbarMain.toolbarMain
         toolbar.inflateMenu(R.menu.home_menu)
@@ -44,20 +50,27 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
         searchView = searchMenuItem.actionView as SearchView
         searchView.setup()
 
-        menuItemExpandListener = MenuItemExpandListener(expand = {
-            toolbar.hideMenu()
-            viewModel.showSearch()
-        }, collapse = {
-            toolbar.showMenu()
-            viewModel.goBack()
-        })
+        tabLayout = activity.findViewById(R.id.tab_layout_dots)
+
+        menuItemExpandListener = MenuItemExpandListener(
+            expand = {
+                searchView.fadeIn()
+                tabLayout.fadeOut(View.GONE)
+                toolbar.hideMenu()
+                viewModel.showSearch()
+            },
+            collapse = {
+                searchView.fadeOut(View.GONE)
+                toolbar.showMenu()
+                viewModel.goBack()
+            })
 
         queryListener = SearchQueryListener { query ->
             viewModel.startLoading()
             viewModel.getPredictions(query)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(
+        activity.onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
@@ -66,7 +79,7 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
                     else {
                         viewModel.goBack()
                         isEnabled = false
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                        activity.onBackPressedDispatcher.onBackPressed()
                     }
                 }
             })
@@ -101,6 +114,7 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
 
     private fun SearchView.setup() {
         this.maxWidth = Integer.MAX_VALUE
+        this.queryHint = getString(R.string.search_view_hint)
         this.findViewById<View?>(R.id.search_bar)
             ?.setBackgroundResource(R.drawable.rectangle_rounded_15)
         this.findViewById<View?>(R.id.search_plate)

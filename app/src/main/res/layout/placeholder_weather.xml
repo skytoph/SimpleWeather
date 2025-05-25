@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.github.skytoph.simpleweather.core.presentation.view.shimmer.ShimmerWrapper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/placeholder_shimmer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/placeholder_shimmer"
+    style="@style/LoadingShimmer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="24dp"

@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/appbar_settings"
-        layout="@layout/appbar_settings" />
+        layout="@layout/appbar_with_title" />
 
     <FrameLayout
         android:id="@+id/list_container"

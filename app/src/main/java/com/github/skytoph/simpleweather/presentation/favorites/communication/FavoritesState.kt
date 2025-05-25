@@ -5,6 +5,8 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentManager
 import com.github.skytoph.simpleweather.R
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeIn
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeOut
 import com.github.skytoph.simpleweather.core.presentation.view.shimmer.ShimmerWrapper
 import com.github.skytoph.simpleweather.presentation.favorites.ConfirmationDialogFragment
 import com.github.skytoph.simpleweather.presentation.favorites.ShowFavorites
@@ -22,9 +24,10 @@ sealed class FavoritesState : ShowFavorites() {
             contentMenuItem: MenuItem,
             tabLayout: TabLayout,
         ) {
-            tabLayout.visibility = contentVisibility
             contentMenuItem.isVisible = contentVisibility == View.VISIBLE
             errorView.visibility = errorViewVisibility
+            if (contentVisibility == View.VISIBLE) tabLayout.fadeIn()
+            else tabLayout.fadeOut(contentVisibility)
         }
     }
 

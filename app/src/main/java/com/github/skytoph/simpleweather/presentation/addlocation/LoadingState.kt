@@ -2,12 +2,12 @@ package com.github.skytoph.simpleweather.presentation.addlocation
 
 import android.view.View
 import android.widget.TextView
-import com.github.skytoph.simpleweather.core.presentation.view.MessageButton
+import com.github.skytoph.simpleweather.core.presentation.view.ActionButton
 import com.github.skytoph.simpleweather.core.presentation.view.shimmer.ShimmerWrapper
 
 sealed class LoadingState {
     abstract fun show(
-        content: View, button: MessageButton, errorView: TextView, progress: ShimmerWrapper,
+        content: View, button: ActionButton, errorView: TextView, progress: ShimmerWrapper,
     )
 
     abstract class Abstract(
@@ -17,7 +17,7 @@ sealed class LoadingState {
         private val progressVisible: Boolean,
     ) : LoadingState() {
         override fun show(
-            content: View, button: MessageButton, errorView: TextView, progress: ShimmerWrapper,
+            content: View, button: ActionButton, errorView: TextView, progress: ShimmerWrapper,
         ) {
             content.visibility = contentVisibility
             button.visibility = buttonVisibility
@@ -33,7 +33,7 @@ sealed class LoadingState {
         progressVisible = false
     ) {
         override fun show(
-            content: View, button: MessageButton, errorView: TextView, progress: ShimmerWrapper,
+            content: View, button: ActionButton, errorView: TextView, progress: ShimmerWrapper,
         ) {
             super.show(content, button, errorView, progress)
             button.setClickedStyle()

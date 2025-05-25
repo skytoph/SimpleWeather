@@ -128,4 +128,5 @@
     <string name="weather_freezing_rain_dense">Морозний дощ</string>
     <string name="weather_freezing_rain">Морозний дощ</string>
     <string name="weather_fog">Туман</string>
+    <string name="search_view_hint">Пошук</string>
 </resources>

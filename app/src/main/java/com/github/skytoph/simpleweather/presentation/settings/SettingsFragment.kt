@@ -84,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val toolbarTitle = layout.findViewById<TextView>(R.id.toolbar_title)
         toolbarTitle.text = resources.getString(R.string.settings)
 
-        val toolbar = layout.findViewById<Toolbar>(R.id.toolbar_settings)
+        val toolbar = layout.findViewById<Toolbar>(R.id.toolbar_with_title)
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener { viewModel.goBack() }
 

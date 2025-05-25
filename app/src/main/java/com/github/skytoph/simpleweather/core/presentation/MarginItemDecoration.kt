@@ -17,10 +17,11 @@ class MarginItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) = with(outRect) {
-        if (parent.getChildAdapterPosition(view) == 0)
-            top = spaceTop
+        top = spaceTop
         left = spaceLeft
-        bottom = spaceBottom
-        right = spaceRight
+        if (parent.getChildAdapterPosition(view) != state.itemCount - 1)
+            bottom = spaceBottom
+        if (parent.getChildAdapterPosition(view) != state.itemCount - 1)
+            right = spaceRight
     }
 }

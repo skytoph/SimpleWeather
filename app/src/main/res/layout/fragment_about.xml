@@ -14,7 +14,7 @@
 
         <include
             android:id="@+id/appbar_settings"
-            layout="@layout/appbar_settings" />
+            layout="@layout/appbar_with_title" />
 
         <ImageView
             android:layout_width="80dp"

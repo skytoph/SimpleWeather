@@ -21,7 +21,7 @@ class AboutFragment : BaseFragment<AboutViewModel, FragmentAboutBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.appbarSettings.toolbarTitle.text = resources.getString(R.string.about_app)
-        binding.appbarSettings.toolbarSettings.setNavigationIcon(R.drawable.ic_back)
-        binding.appbarSettings.toolbarSettings.setNavigationOnClickListener { viewModel.goBack() }
+        binding.appbarSettings.toolbarWithTitle.setNavigationIcon(R.drawable.ic_back)
+        binding.appbarSettings.toolbarWithTitle.setNavigationOnClickListener { viewModel.goBack() }
     }
 }
