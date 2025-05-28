@@ -19,7 +19,7 @@
             android:layout_width="@dimen/weather_image_size"
             android:layout_height="@dimen/weather_image_size"
             android:src="@drawable/ic_clouds_gray"
-            app:tint="?titleTextColor" />
+            app:tint="?placeholderColor" />
 
         <View
             style="@style/PlaceholderGray"

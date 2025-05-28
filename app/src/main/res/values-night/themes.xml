@@ -23,9 +23,11 @@
         <!--        Text colors-->
         <item name="mainTitleTextColor">@color/white</item>
 
+        <item name="placeholderColor">@color/very_dark_gray</item>
         <item name="titleTextColor">@color/light_gray</item>
         <item name="subtitleTextColor">@color/white</item>
         <item name="contentTextColor">@color/light_gray</item>
         <item name="highlightedTextColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 </resources>

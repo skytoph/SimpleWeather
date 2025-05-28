@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.github.skytoph.simpleweather.R
 
 abstract class BaseBindingFragment<B : ViewBinding> : Fragment() {
 
@@ -40,6 +42,15 @@ abstract class BaseBindingFragment<B : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    protected fun Toolbar.addBackNavigation(onClick: View.OnClickListener) {
+        setNavigationIcon(R.drawable.ic_back)
+        setNavigationOnClickListener(onClick)
+    }
+
+    protected fun Toolbar.removeNavigationIcon() {
+        setNavigationIcon(null)
     }
 }
 

@@ -2,6 +2,7 @@
 <resources>
     <!--    Views color-->
     <attr name="mainViewsBackground" format="color" />
+    <attr name="placeholderColor" format="color" />
 
     <!--    Tabs color-->
     <attr name="tabDotColor" format="color" />

@@ -70,7 +70,7 @@ abstract class ShowStrategy {
             animation: NavAnimation,
             fragmentManager: FragmentManager,
         ) {
-            childFragmentManager.beginTransaction()
+            childFragmentManager.baseTransaction(animation)
                 .replace(container, fragment, id)
                 .addToBackStack(id)
                 .commit()

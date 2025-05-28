@@ -2,8 +2,9 @@ package com.github.skytoph.simpleweather.core.presentation.view.shimmer
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeIn
+import com.github.skytoph.simpleweather.core.presentation.anim.fadeOut
 
 class ShimmerWrapper @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -17,6 +18,6 @@ class ShimmerWrapper @JvmOverloads constructor(
             stopShimmer()
             hideShimmer()
         }
-        visibility = if (layoutVisible) View.VISIBLE else View.GONE
+        if (layoutVisible) fadeIn() else fadeOut(GONE)
     }
 }

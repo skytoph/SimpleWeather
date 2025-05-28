@@ -23,23 +23,21 @@ class AddLocationFragment : BaseFragment<AddLocationViewModel, FragmentAddLocati
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appbarAddLocation.toolbarWithTitle.apply {
-            setNavigationIcon(R.drawable.ic_back)
-            setNavigationOnClickListener { viewModel.goBack() }
-        }
+        binding.appbarWithButton.toolbarWithTitle.addBackNavigation { viewModel.goBack() }
 
-        val button = binding.messageButton
-        val shimmerView = binding.placeholder.placeholderShimmer
+        val button = binding.appbarWithButton.messageButton
+        val placeholder = binding.placeholder.placeholderShimmer
         viewModel.observe(this) { state ->
             binding.apply {
-                state.show(weatherAddContainer, button, errorView, shimmerView)
+                state.show(weatherAddContainer, button, errorView, placeholder)
             }
         }
 
-        viewModel.showWeather(childFragmentManager, R.id.weather_add_container) { favorite ->
-            if (!favorite) button.setOnClickListener {
-                viewModel.saveWeather { button.setClickedStyle() }
-            }
+        if (savedInstanceState == null)
+            viewModel.showWeather(this, childFragmentManager, R.id.weather_add_container)
+
+        button.setOnClickListener {
+            viewModel.saveWeather { button.setClickedStyle() }
         }
     }
 

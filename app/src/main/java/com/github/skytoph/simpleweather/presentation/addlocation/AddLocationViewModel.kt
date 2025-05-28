@@ -3,6 +3,7 @@ package com.github.skytoph.simpleweather.presentation.addlocation
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -18,29 +19,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddLocationViewModel @Inject constructor(
-    state: SavedStateHandle,
+    private val state: SavedStateHandle,
     private val interactor: AddLocationInteractor,
     private val navigator: AddLocationNavigator,
     private val loadingCommunication: WeatherLoadingCommunication.Observe,
 ) : ViewModel() {
 
     private val placeId: String = state[PLACE_ID_KEY]!!
+    private val favorite: LiveData<Boolean?> =
+        state.getLiveData<Boolean?>(FAVORITE_KEY, null)
 
-    fun showWeather(
-        fragmentManager: FragmentManager, @IdRes container: Int, callback: (Boolean) -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        val favorite = interactor.isFavorite(placeId)
-        withContext(Dispatchers.Main) {
-            navigator.showWeather(fragmentManager, container, placeId, favorite.also(callback))
+    init {
+        viewModelScope.launch {
+            state[FAVORITE_KEY] = interactor.isFavorite(placeId)
+        }
+    }
+
+    fun showWeather(owner: LifecycleOwner, fragmentManager: FragmentManager, @IdRes container: Int) {
+        favorite.observe(owner) { favorite ->
+            if (favorite != null)
+                navigator.showWeather(fragmentManager, container, placeId, favorite)
         }
     }
 
     fun saveWeather(successCallback: () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
-        interactor.save {
-            withContext(Dispatchers.Main) {
-                successCallback()
+        if (favorite.value != true)
+            interactor.save {
+                withContext(Dispatchers.Main) {
+                    successCallback()
+                }
             }
-        }
     }
 
     fun observe(owner: LifecycleOwner, observer: Observer<LoadingState>) =
@@ -50,5 +58,6 @@ class AddLocationViewModel @Inject constructor(
 
     companion object {
         const val PLACE_ID_KEY = "placeId"
+        const val FAVORITE_KEY = "favorite"
     }
 }

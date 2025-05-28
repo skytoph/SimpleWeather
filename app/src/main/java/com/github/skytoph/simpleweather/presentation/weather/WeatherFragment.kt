@@ -85,7 +85,6 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
         viewModel.observeRefresh(this) { refresh ->
             if (refresh) viewModel.refreshFromCache()
         }
-        viewModel.getWeather(savedInstanceState == null)
     }
 
     override fun onResume() {

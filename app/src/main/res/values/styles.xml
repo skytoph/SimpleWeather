@@ -117,7 +117,7 @@
     </style>
 
     <style name="PlaceholderGray">
-        <item name="android:backgroundTint">?attr/titleTextColor</item>
+        <item name="android:backgroundTint">?attr/placeholderColor</item>
         <item name="android:background">@drawable/rectangle_rounded_11</item>
     </style>
 

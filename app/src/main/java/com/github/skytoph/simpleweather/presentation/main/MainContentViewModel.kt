@@ -27,7 +27,7 @@ class MainContentViewModel @Inject constructor(
     private val stateCommunication: MainStateCommunication,
 ) : ViewModel() {
 
-    fun init() {
+    init {
         interactor.startSession()
         getPredictions("")
         showFavorites()

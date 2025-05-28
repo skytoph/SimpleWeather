@@ -1,12 +1,14 @@
 package com.github.skytoph.simpleweather.presentation.main
 
-import androidx.appcompat.widget.SearchView
+import android.text.Editable
+import android.text.TextWatcher
 
-class SearchQueryListener(private val search: (String) -> Unit) : SearchView.OnQueryTextListener {
-    override fun onQueryTextSubmit(query: String?): Boolean = false
+class SearchQueryListener(private val search: (String) -> Unit) : TextWatcher {
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        search.invoke(newText ?: "")
-        return false
+    override fun afterTextChanged(s: Editable?) = Unit
+
+    override fun onTextChanged(query: CharSequence?, start: Int, before: Int, count: Int) {
+        search(query?.toString() ?: "")
     }
 }

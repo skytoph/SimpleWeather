@@ -16,13 +16,14 @@
 
     <TextView
         android:id="@+id/location_description"
-        style="@style/Location"
+        style="@style/MediumValue"
+        android:layout_marginTop="4dp"
+        android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:textStyle="bold"
         android:gravity="center"
         android:paddingHorizontal="16dp"
-        android:textSize="16sp"
         tools:text="Cloudy" />
 
     <TextView

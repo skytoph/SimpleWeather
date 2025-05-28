@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,20 +12,8 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/appbar_add_location"
-            layout="@layout/appbar_with_title" />
-
-        <com.github.skytoph.simpleweather.core.presentation.view.ActionButton
-            android:id="@+id/message_button"
-            style="@style/ActionButtonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="24dp"
-            android:visibility="invisible"
-            app:textDisabled="@string/action_added_to_list"
-            app:textEnabled="@string/action_add_to_list"
-            tools:visibility="visible" />
+            android:id="@+id/appbar_with_button"
+            layout="@layout/appbar_with_button" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -41,7 +28,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:text="@string/error_general"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/weather_add_container"
@@ -51,6 +38,7 @@
 
             <include
                 android:id="@+id/placeholder"
+                android:visibility="invisible"
                 layout="@layout/placeholder_weather" />
         </FrameLayout>
     </LinearLayout>

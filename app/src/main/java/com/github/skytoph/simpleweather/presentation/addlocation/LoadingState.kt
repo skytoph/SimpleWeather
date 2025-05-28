@@ -36,7 +36,7 @@ sealed class LoadingState {
             content: View, button: ActionButton, errorView: TextView, progress: ShimmerWrapper,
         ) {
             super.show(content, button, errorView, progress)
-            button.setClickedStyle()
+            button.setDisabledStyle()
         }
     }
 

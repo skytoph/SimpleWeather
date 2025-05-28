@@ -1,25 +1,20 @@
 package com.github.skytoph.simpleweather.presentation.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import com.github.skytoph.simpleweather.R
 import com.github.skytoph.simpleweather.core.presentation.BaseFragment
-import com.github.skytoph.simpleweather.core.presentation.anim.fadeIn
 import com.github.skytoph.simpleweather.core.presentation.anim.fadeOut
-import com.github.skytoph.simpleweather.core.presentation.menu.MenuItemExpandListener
+import com.github.skytoph.simpleweather.core.presentation.view.SearchView
 import com.github.skytoph.simpleweather.databinding.FragmentMainBinding
-import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,52 +25,47 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
     override val bindingInflation: (inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean) -> FragmentMainBinding
         get() = FragmentMainBinding::inflate
 
-    private lateinit var searchMenuItem: MenuItem
-    private lateinit var menuItemExpandListener: MenuItemExpandListener
+    private lateinit var searchView: SearchView
+    private lateinit var expandListener: SearchView.OnExpandListener
+    private lateinit var collapseListener: SearchView.OnCollapseListener
     private lateinit var queryListener: SearchQueryListener
     private lateinit var toolbar: Toolbar
-    private lateinit var searchView: SearchView
-    private lateinit var tabLayout: TabLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = requireActivity()
-
         toolbar = binding.appbarMain.toolbarMain
         toolbar.inflateMenu(R.menu.home_menu)
 
-        searchMenuItem = toolbar.menu.findItem(R.id.action_search)
+        searchView = binding.appbarMain.searchView
 
-        searchView = searchMenuItem.actionView as SearchView
-        searchView.setup()
-
-        tabLayout = activity.findViewById(R.id.tab_layout_dots)
-
-        menuItemExpandListener = MenuItemExpandListener(
-            expand = {
-                searchView.fadeIn()
-                tabLayout.fadeOut(View.GONE)
-                toolbar.hideMenu()
-                viewModel.showSearch()
-            },
-            collapse = {
-                searchView.fadeOut(View.GONE)
-                toolbar.showMenu()
-                viewModel.goBack()
-            })
+        expandListener = SearchView.OnExpandListener {
+            binding.appbarMain.tabLayoutDots.fadeOut(View.GONE)
+            viewModel.showSearch()
+            toolbar.hideMenu()
+            toolbar.addBackNavigation { searchView.collapse() }
+        }
+        collapseListener = SearchView.OnCollapseListener {
+            hideKeyboard()
+            toolbar.removeNavigationIcon()
+            toolbar.showMenu()
+            viewModel.goBack()
+        }
 
         queryListener = SearchQueryListener { query ->
             viewModel.startLoading()
             viewModel.getPredictions(query)
+            if (query.isEmpty()) searchView.hideCloseButton()
+            else searchView.showClearButton()
         }
 
+        val activity = requireActivity()
         activity.onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (searchMenuItem.isActionViewExpanded && !searchView.isFocused)
-                        searchMenuItem.collapseActionView()
+                    if (searchView.isExpanded && !searchView.isFocused)
+                        searchView.collapse()
                     else {
                         viewModel.goBack()
                         isEnabled = false
@@ -94,31 +84,26 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.init()
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (searchView.isExpanded) {
+            toolbar.hideMenu()
+            toolbar.addBackNavigation { searchView.collapse() }
+        } else {
+            toolbar.removeNavigationIcon()
+            toolbar.showMenu()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        searchMenuItem.setOnActionExpandListener(menuItemExpandListener)
-        searchView.setOnQueryTextListener(queryListener)
-        if (searchMenuItem.isActionViewExpanded) toolbar.hideMenu()
+        searchView.addListeners(expandListener, collapseListener, queryListener)
+        if (searchView.isExpanded) toolbar.hideMenu()
     }
 
     override fun onPause() {
         super.onPause()
-        searchMenuItem.setOnActionExpandListener(null)
-        searchView.setOnQueryTextListener(null)
-    }
-
-    private fun SearchView.setup() {
-        this.maxWidth = Integer.MAX_VALUE
-        this.queryHint = getString(R.string.search_view_hint)
-        this.findViewById<View?>(R.id.search_bar)
-            ?.setBackgroundResource(R.drawable.rectangle_rounded_15)
-        this.findViewById<View?>(R.id.search_plate)
-            ?.setBackgroundColor(Color.TRANSPARENT)
+        searchView.addListeners(null, null, null)
     }
 
     private fun Toolbar.showMenu() {
@@ -129,11 +114,11 @@ class MainFragment : BaseFragment<MainContentViewModel, FragmentMainBinding>() {
     private fun Toolbar.hideMenu() {
         val toolbarPadding = resources.getDimensionPixelSize(R.dimen.toolbar_collapsed_end_padding)
         this.updatePadding(0, 0, toolbarPadding, 0)
-        this.menu.hideExcept(R.id.action_search)
+        this.menu.hideAll()
     }
 
-    private fun Menu.hideExcept(id: Int) {
-        forEach { item -> if (item.itemId != id) item.isVisible = false }
+    private fun Menu.hideAll() {
+        forEach { item -> item.isVisible = false }
     }
 
     private fun Menu.showAll() {
