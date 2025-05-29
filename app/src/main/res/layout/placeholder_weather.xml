@@ -23,28 +23,29 @@
 
         <View
             style="@style/PlaceholderGray"
+            android:layout_width="80dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="6dp"
+            android:paddingHorizontal="16dp" />
+
+        <View
+            style="@style/PlaceholderGray"
             android:layout_width="200dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
             android:paddingHorizontal="16dp" />
 
         <View
             style="@style/PlaceholderGray"
             android:layout_width="96dp"
             android:layout_height="80dp"
-            android:layout_marginTop="16dp" />
-
-        <View
-            style="@style/PlaceholderGray"
-            android:layout_width="128dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end"
-            android:layout_marginBottom="11dp" />
+            android:layout_marginTop="8dp" />
 
         <View
             style="@style/PlaceholderGray"
             android:layout_width="match_parent"
             android:layout_height="64dp"
+            android:layout_marginTop="44dp"
             android:layout_marginBottom="11dp" />
 
         <View
