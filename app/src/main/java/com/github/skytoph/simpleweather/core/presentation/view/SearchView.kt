@@ -83,7 +83,7 @@ class SearchView(
             0f, width.toFloat()
         )
         animation.interpolator = FastOutSlowInInterpolator()
-        animation.duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        animation.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         animation.start()
         animation.doOnEnd {
             binding.searchInputText.requestFocus()
@@ -101,7 +101,7 @@ class SearchView(
             (binding.searchCollapsedIcon.top + binding.searchCollapsedIcon.bottom) / 2,
             width.toFloat(), 0f
         )
-        animation.duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        animation.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         animation.interpolator = FastOutSlowInInterpolator()
         animation.start()
         animation.doOnEnd {
