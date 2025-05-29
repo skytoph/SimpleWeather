@@ -23,16 +23,17 @@
             android:layout_marginVertical="16dp"
             android:src="@drawable/weather_clouds_sun" />
 
+
         <TextView
             style="@style/About.Title"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/about_data_safety_title" />
 
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/about_privacy_policy_link"
             app:url="@string/about_app_privacy_policy_url" />
 
@@ -63,9 +64,39 @@
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/about_ccby4_license"
             app:url="@string/about_ccby4_license_url" />
+
+        <TextView
+            style="@style/About.Title"
+            android:layout_marginHorizontal="@dimen/about_horizontal_margin"
+            android:layout_marginBottom="4dp"
+            android:text="@string/about_shimmer_effect_title" />
+
+        <TextView
+            style="@style/About.Description"
+            android:layout_marginHorizontal="@dimen/about_horizontal_margin"
+            android:text="@string/about_shimmer_effect_description" />
+
+        <TextView
+            style="@style/About.Description"
+            android:layout_marginHorizontal="@dimen/about_horizontal_margin"
+            android:layout_marginBottom="4dp"
+            android:text="@string/about_shimmer_effect_description_copyright" />
+
+        <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
+            style="@style/About.Hyperlink"
+            android:layout_marginHorizontal="@dimen/about_horizontal_margin"
+            android:text="@string/about_shimmer_effect_repository_link"
+            app:url="@string/about_shimmer_effect_repository_url" />
+
+        <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
+            style="@style/About.Hyperlink"
+            android:layout_marginHorizontal="@dimen/about_horizontal_margin"
+            android:layout_marginBottom="16dp"
+            android:text="@string/about_bsd_license_link"
+            app:url="@string/about_bsd_license_url" />
 
         <TextView
             style="@style/About.Title"
@@ -94,7 +125,7 @@
         <com.github.skytoph.simpleweather.core.presentation.view.ClickableLinkView
             style="@style/About.Hyperlink"
             android:layout_marginHorizontal="@dimen/about_horizontal_margin"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/about_ccbysa4_license"
             app:url="@string/about_ccbysa4_license_url" />
 

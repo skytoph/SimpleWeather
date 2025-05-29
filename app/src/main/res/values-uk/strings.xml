@@ -84,7 +84,7 @@
 
     <string name="about_data_title">Дані</string>
     <string name="about_data_description">Додаток використовує дані прогнозу погоди, надані сервісами <b>Open-Meteo</b>. <b>Open-Meteo API</b> ліцензований за умовами ліцензії <b>Creative Commons Attribution 4.0 International license (CC BY 4.0)</b>.</string>
-    <string name="about_ccbysa4_license">Більше про ліцензію <b>CC BY-SA 4.0</b></string>
+    <string name="about_ccbysa4_license">Детальніше про ліцензію <b>CC BY-SA 4.0</b></string>
     <string name="about_api_license">Ліцензія <b>Open-Meteo</b></string>
     <string name="about_api">Сайт <b>Open-Meteo</b></string>
 
@@ -98,6 +98,9 @@
 
     <string name="about_data_safety_title">Безпека даних</string>
     <string name="about_privacy_policy_link">Переглянути <b>Політику Конфіденційності</b></string>
+
+    <string name="about_shimmer_effect_description"><b>Бібліотека Shimmer</b>, розроблена <b>Facebook</b> (зараз <b>Meta</b>), призначена для відображення ефекту завантаження в Android-додатках. Ліцензована за умовами ліцензії <b>BSD</b>.</string>
+    <string name="about_bsd_license_link">Детальніше про ліцензію <b>BSD</b></string>
 
     <string name="weather_clear">Ясно</string>
     <string name="weather_partly_cloudy">Частково хмарно</string>

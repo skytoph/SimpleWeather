@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_ccby4_license_url" translatable="false">https://creativecommons.org/licenses/by/4.0/</string>
+    <string name="about_bsd_license_url" translatable="false">https://opensource.org/license/BSD-3-Clause/</string>
+    <string name="about_shimmer_effect_repository_url" translatable="false">https://github.com/facebookarchive/shimmer-android/</string>
     <string name="about_original_design_url" translatable="false">https://www.figma.com/community/file/1019097765306863573/Minimal-Weather-App/</string>
     <string name="about_designer_url" translatable="false">https://www.instagram.com/getuied/</string>
     <string name="weather_provider_url" translatable="false">https://open-meteo.com/</string>

@@ -144,6 +144,12 @@
     <string name="about_locations_terms_of_service">Google’s <b>Terms of Service</b></string>
     <string name="about_locations_privacy_policy">Google’s <b>Privacy Policy</b></string>
 
+    <string name="about_shimmer_effect_title" translatable="false">Shimmer effect</string>
+    <string name="about_shimmer_effect_description"><b>Shimmer effect library</b> originally developed by <b>Facebook</b> (now <b>Meta</b>) for loading placeholders in Android apps. Licensed under the <b>BSD License</b>.</string>
+    <string name="about_shimmer_effect_description_copyright" translatable="false"><b>Copyright © Meta Platforms, Inc. and affiliates</b></string>
+    <string name="about_shimmer_effect_repository_link" translatable="false"><b>GitHub repository</b></string>
+    <string name="about_bsd_license_link">More about <b>BSD License</b></string>
+
     <string name="weather_clear">Clear</string>
     <string name="weather_partly_cloudy">Partly cloudy</string>
     <string name="weather_cloudy">Cloudy</string>
