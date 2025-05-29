@@ -40,13 +40,14 @@ sealed class ForecastUi(
     }
 
     data class Hourly(
+        private val id: Long,
         private val time: String,
         private val temp: String,
         private val weather: WeatherResources,
         private val precipitationProb: String,
     ) : ForecastUi(time, temp, weather, precipitationProb), Matcher<Hourly> {
 
-        override fun matches(item: Hourly): Boolean = time == item.time
+        override fun matches(item: Hourly): Boolean = id == item.id
         override fun contentMatches(item: Hourly): Boolean = equals(item)
     }
 
