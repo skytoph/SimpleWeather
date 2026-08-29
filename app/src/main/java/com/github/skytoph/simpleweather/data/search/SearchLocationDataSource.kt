@@ -13,7 +13,7 @@ import com.github.skytoph.simpleweather.domain.search.SearchItemDomain
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.model.PlaceTypes
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -67,7 +67,7 @@ interface SearchLocationDataSource {
         private lateinit var client: PlacesClient
 
         override fun startSession(locale: Locale) {
-            Places.initialize(context, BuildConfig.MAPS_API_KEY, locale)
+            Places.initializeWithNewPlacesApiEnabled(context, BuildConfig.MAPS_API_KEY, locale)
             client = Places.createClient(context)
         }
 
@@ -81,7 +81,7 @@ interface SearchLocationDataSource {
             val request = FindAutocompletePredictionsRequest.builder()
                 .setQuery(query)
                 .setSessionToken(token)
-                .setTypeFilter(TypeFilter.REGIONS)
+                .setTypesFilter(listOf(PlaceTypes.REGIONS))
                 .build()
 
             client.findAutocompletePredictions(request)

@@ -22,6 +22,6 @@ interface PredictionListToDataMapper : Mapper<List<SearchItemData>> {
         private fun AutocompletePrediction.isDescribed() = this.getSecondaryText(null).isNotBlank()
 
         private fun List<AutocompletePrediction>.filter() =
-            this.filter { place -> place.isDescribed() && place.placeTypes.any { it in TARGET_SEARCH_TYPES } }
+            this.filter { place -> place.isDescribed() && place.types.any { it in TARGET_SEARCH_TYPES } }
     }
 }

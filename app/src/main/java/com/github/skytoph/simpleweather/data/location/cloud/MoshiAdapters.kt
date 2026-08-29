@@ -13,7 +13,7 @@ class CoordinatesAdapter : ChoosePlace.Abstract() {
     @FromJson
     fun coordinatesFromJson(location: PlaceJson): PlaceCoordinatesCloud {
         val place: ResultJson? = choosePlace(location.results ?: emptyList()) { place, i ->
-            place?.types?.contains(TARGET_TYPES[i].name.lowercase()) ?: false
+            place?.types?.contains(TARGET_TYPES[i].lowercase()) == true
         }
         val coordinates = place?.geometry?.location
         val components = place?.components

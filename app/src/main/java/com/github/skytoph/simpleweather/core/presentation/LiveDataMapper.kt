@@ -1,7 +1,7 @@
 package com.github.skytoph.simpleweather.core.presentation
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import javax.inject.Inject
 
 interface LiveDataMapper {
@@ -10,6 +10,6 @@ interface LiveDataMapper {
     class Base @Inject constructor() : LiveDataMapper {
 
         override fun <T, V> map(data: LiveData<T>, mapper: (T) -> V): LiveData<V> =
-            Transformations.map(data) { mapper.invoke(it) }
+            data.map { mapper.invoke(it) }
     }
 }

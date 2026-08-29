@@ -2,23 +2,35 @@ package com.github.skytoph.simpleweather.domain.work
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.work.*
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.github.skytoph.simpleweather.data.work.UpdateWorker
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 interface UpdateForecastWork {
     fun scheduleWork(updateCriteria: Int = UpdateWorker.CRITERIA_DAY)
-    fun observeWork(owner: LifecycleOwner, observer: Observer<WorkInfo>)
+    fun observeWork(owner: LifecycleOwner, observer: Observer<WorkInfo?>)
 
     abstract class Abstract(protected val workManager: WorkManager) : UpdateForecastWork {
         protected var workId: UUID? = null
 
-        override fun observeWork(owner: LifecycleOwner, observer: Observer<WorkInfo>) {
+        override fun observeWork(owner: LifecycleOwner, observer: Observer<WorkInfo?>) {
             workId?.let {
                 workManager.getWorkInfoByIdLiveData(it).observe(owner, observer)
             }
         }
+
     }
 
     class Periodically(workManager: WorkManager) : Abstract(workManager) {
@@ -34,7 +46,7 @@ interface UpdateForecastWork {
                     )
                     .setBackoffCriteria(
                         BackoffPolicy.LINEAR,
-                        PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
+                        PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
                         TimeUnit.MILLISECONDS
                     )
                     .setInputData(data)
@@ -62,7 +74,7 @@ interface UpdateForecastWork {
                 )
                 .setBackoffCriteria(
                     BackoffPolicy.LINEAR,
-                    OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                    0,
                     TimeUnit.MILLISECONDS
                 )
                 .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)

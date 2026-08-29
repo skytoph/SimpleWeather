@@ -46,9 +46,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val key = getString(R.string.key_time)
         val preference = findPreference<SwitchPreferenceCompat>(key)
         val default = DateFormat.is24HourFormat(context)
-        val value = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, default)
+        val value = context?.let { PreferenceManager.getDefaultSharedPreferences(it) }?.getBoolean(key, default)
         preference?.setDefaultValue(value)
-        preference?.isChecked = value
+        preference?.isChecked = value == true
     }
 
     private fun setupClearHistoryPreference() {

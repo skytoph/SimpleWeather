@@ -5,36 +5,39 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.github.skytoph.simpleweather.R
-import java.io.Serializable
 
-class ConfirmationDialogFragment : DialogFragment() {
+abstract class ConfirmationDialogFragment : DialogFragment() {
 
-    @Suppress("UNCHECKED_CAST", "DEPRECATION")
-    private val callback: () -> Unit by lazy {
-        requireArguments().getSerializable(CALLBACK_KEY) as? () -> Unit ?: {}
-    }
-
-    @Suppress("UNCHECKED_CAST", "DEPRECATION")
-    private val cancelCallback: () -> Unit by lazy {
-        requireArguments().getSerializable(CANCEL_KEY) as? () -> Unit ?: {}
-    }
-    private val messageId by lazy { requireArguments().getInt(MESSAGE_ID_KEY) }
+    //    @Suppress("UNCHECKED_CAST", "DEPRECATION")
+//    private val callback: () -> Unit by lazy {
+//        requireArguments().getSerializable(CALLBACK_KEY) as? () -> Unit ?: {}
+//    }
+//
+//    @Suppress("UNCHECKED_CAST", "DEPRECATION")
+//    private val cancelCallback: () -> Unit by lazy {
+//        requireArguments().getSerializable(CANCEL_KEY) as? () -> Unit ?: {}
+//    }
+    @get:StringRes
+    abstract val messageId: Int
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
             .setMessage(getString(messageId))
-            .setPositiveButton(getString(R.string.confirm)) { _, _ -> callback() }
-            .setNegativeButton(getString(R.string.dismiss)) { _, _ -> cancelCallback();dismiss() }
+            .setPositiveButton(getString(R.string.confirm)) { _, _ -> onConfirm() }
+            .setNegativeButton(getString(R.string.dismiss)) { _, _ -> onCancel();dismiss() }
             .setCancelable(true)
             .create()
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        cancelCallback()
+        onCancel()
     }
+
+    abstract fun onConfirm()
+
+    abstract fun onCancel()
 
     companion object {
         private const val CALLBACK_KEY = "key_callback"
@@ -42,12 +45,16 @@ class ConfirmationDialogFragment : DialogFragment() {
         const val MESSAGE_ID_KEY = "key_message_id_res"
 
         fun newInstance(callback: () -> Unit, cancel: () -> Unit, @StringRes messageId: Int) =
-            ConfirmationDialogFragment().apply {
-                arguments = bundleOf(
-                    CALLBACK_KEY to callback as Serializable,
-                    CANCEL_KEY to cancel as Serializable,
-                    MESSAGE_ID_KEY to messageId
-                )
+            object : ConfirmationDialogFragment() {
+                override val messageId: Int = messageId
+
+                override fun onCancel() {
+                    cancel()
+                }
+
+                override fun onConfirm() {
+                    callback()
+                }
             }
     }
 }

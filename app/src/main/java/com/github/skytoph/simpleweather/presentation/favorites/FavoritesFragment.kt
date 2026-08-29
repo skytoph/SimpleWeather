@@ -87,8 +87,8 @@ class FavoritesFragment : BaseFragment<FavoritesViewModel, FragmentFavoritesBind
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .registerOnSharedPreferenceChangeListener(this)
+        context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+            ?.registerOnSharedPreferenceChangeListener(this)
         permission.register(this)
         if (savedInstanceState == null) lifecycleScope.launchWhenStarted {
             viewModel.initialize(viewLifecycleOwner)
@@ -101,8 +101,8 @@ class FavoritesFragment : BaseFragment<FavoritesViewModel, FragmentFavoritesBind
     }
 
     override fun onDestroy() {
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .unregisterOnSharedPreferenceChangeListener(this)
+        context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+            ?.unregisterOnSharedPreferenceChangeListener(this)
         super.onDestroy()
     }
 

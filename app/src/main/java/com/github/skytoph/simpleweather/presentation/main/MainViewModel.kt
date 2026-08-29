@@ -40,6 +40,7 @@ class MainViewModel @Inject constructor(
             when (info?.state) {
                 WorkInfo.State.RUNNING -> progressCommunication.show(true)
                 WorkInfo.State.ENQUEUED -> progressCommunication.show(false)
+                else -> {}
             }
         }
     }

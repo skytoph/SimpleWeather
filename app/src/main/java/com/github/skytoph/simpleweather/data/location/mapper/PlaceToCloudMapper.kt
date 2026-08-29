@@ -15,8 +15,8 @@ interface PlaceToCloudMapper : Mapper<PlaceData>, PlaceNameMapper {
             return PlaceData(
                 place.id!!,
                 mapOf(mapper.map(name = mapToName(place))),
-                place.latLng!!.latitude,
-                place.latLng!!.longitude
+                place?.location?.latitude ?: 0.0,
+                place?.location?.longitude ?: 0.0
             )
         }
     }

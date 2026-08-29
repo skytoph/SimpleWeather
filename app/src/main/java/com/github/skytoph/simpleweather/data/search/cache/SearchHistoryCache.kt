@@ -19,7 +19,7 @@ interface SearchHistoryCache {
 
         override fun readAll(): List<SearchHistoryDB> = realmProvider.provide().use { realm ->
             return realm.where(SearchHistoryDB::class.java).findAll()
-                .let { realm.copyFromRealm(it) }?.sortedBy { it.time }?.reversed() ?: emptyList()
+                .let { realm.copyFromRealm(it) }?.sortedByDescending { it.time } ?: emptyList()
         }
 
         override fun saveOrUpdate(id: String, data: SearchHistoryData) =
